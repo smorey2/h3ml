@@ -10,8 +10,8 @@ namespace H3ml.Layout
         {
             var doc = new document(new container_test(), null);
             font_metrics fm;
-            doc.get_font(null, 0, "normal", "normal", null, out fm);
-            doc.get_font("inherit", 0, "normal", "normal", null, out fm);
+            doc.get_font(null, 0, "normal", "normal", "", out fm);
+            doc.get_font("inherit", 0, "normal", "normal", "", out fm);
             doc.get_font("Arial", 0, "bold", "normal", "underline", out fm);
             doc.get_font("Arial", 0, "bold", "normal", "line-through", out fm);
             doc.get_font("Arial", 0, "bold", "normal", "overline", out fm);

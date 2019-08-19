@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\H3ml.Script\H3ml.Script.csproj" />
+    <ProjectReference Include="..\H3ml.Script.Portable\H3ml.Script.Portable.csproj" />
   </ItemGroup>
 
 </Project>
