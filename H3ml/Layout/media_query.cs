@@ -254,8 +254,8 @@ namespace H3ml.Layout
                                     {
                                         var val1 = expr_tokens[1].Substring(0, slash_pos).Trim();
                                         var val2 = expr_tokens[1].Substring(slash_pos + 1).Trim();
-                                        expr.val = int.Parse(val1);
-                                        expr.val2 = int.Parse(val2);
+                                        expr.val = int.TryParse(val1, out var v) ? v : 0;
+                                        expr.val2 = int.TryParse(val2, out v) ? v : 0;
                                     }
                                     else
                                     {

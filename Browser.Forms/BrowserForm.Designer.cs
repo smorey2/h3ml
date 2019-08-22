@@ -39,7 +39,6 @@
             this.address_bar.Name = "address_bar";
             this.address_bar.Size = new System.Drawing.Size(505, 20);
             this.address_bar.TabIndex = 0;
-            this.address_bar.Text = "http://www.litehtml.com/";
             this.address_bar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.on_address_key_press);
             // 
             // go_button

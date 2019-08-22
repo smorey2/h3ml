@@ -325,7 +325,7 @@ namespace H3ml.Layout
             var doc = new document(objPainter, ctx); // Create litehtml::document
             var root_elements = new List<element>();
             using (var gumbo = new Gumbo.Gumbo(str))  // parse document into GumboOutput
-                doc.create_node(gumbo.Document.Root, root_elements); // Create litehtml::elements.
+                doc.create_node(gumbo.Document.Root, root_elements, true); // Create litehtml::elements.
             if (root_elements.Count != 0)
                 doc._root = root_elements.Back();
             // Let's process created elements tree
@@ -370,7 +370,7 @@ namespace H3ml.Layout
                     }
                 else
                 {
-                    fw = int.Parse(weight);
+                    fw = int.TryParse(weight, out var v) ? v : 0;
                     if (fw < 100) fw = (int)font_weight.w400;
                 }
                 var decor = 0U;
@@ -394,7 +394,7 @@ namespace H3ml.Layout
             return ret;
         }
 
-        void create_node(Node node, List<element> elements)
+        void create_node(Node node, List<element> elements, bool parseTextNode)
         {
             switch (node)
             {
@@ -403,19 +403,22 @@ namespace H3ml.Layout
                         var attrs = new Dictionary<string, string>();
                         foreach (var attr in elementNode.Attributes)
                             attrs[attr.Name] = attr.Value;
+
                         element ret = null;
-                        var tag = elementNode.OriginalTagName;
+                        var tag = elementNode.NormalizedTagName;
                         if (tag != null) ret = create_element(tag, attrs);
                         else if (elementNode.OriginalTag != null) ret = create_element(elementNode.OriginalTag, attrs);
+                        if (tag == "script")
+                            parseTextNode = false;
                         if (ret != null)
                         {
-                            var children = new List<element>();
-                            foreach (var child in elementNode.Children)
+                            var child = new List<element>();
+                            foreach (var x in elementNode.Children)
                             {
-                                children.Clear();
-                                create_node(child, children);
-                                foreach (var i in children)
-                                    ret.appendChild(i);
+                                child.Clear();
+                                create_node(x, child, parseTextNode);
+                                foreach (var el in child)
+                                    ret.appendChild(el);
                             }
                             elements.Add(ret);
                         }
@@ -425,6 +428,11 @@ namespace H3ml.Layout
                     {
                         var str = string.Empty;
                         var str_in = textNode.Value;
+                        if (!parseTextNode)
+                        {
+                            elements.Add(new el_text(str_in, this));
+                            break;
+                        }
                         char c;
                         for (var i = 0; i < str_in.Length; i++)
                         {

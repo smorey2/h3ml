@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace H3ml.Layout
@@ -16,6 +17,7 @@ namespace H3ml.Layout
         public void fix_top() => calculatedTop = top;
     }
 
+    [DebuggerDisplay("{_tag}, children={_children.Count}")]
     public class html_tag : element
     {
         protected List<box> _boxes = new List<box>();
@@ -1098,9 +1100,13 @@ namespace H3ml.Layout
         public override visibility get_visibility => _visibility;
         public override void parse_styles(bool is_reparse = false)
         {
+            context.PrintIndent++;
+            context.PrintLine(_tag);
             var style = get_attr("style"); if (style != null) _style.add(style, null);
+
             init_font();
             var doc = get_document();
+
             _el_position = (element_position)html.value_index(get_style_property("position", false, "static"), types.element_position_strings, (int)element_position.@fixed);
             _text_align = (text_align)html.value_index(get_style_property("text-align", true, "left"), types.text_align_strings, (int)text_align.left);
             _overflow = (overflow)html.value_index(get_style_property("overflow", false, "visible"), types.overflow_strings, (int)overflow.visible);
@@ -1108,15 +1114,19 @@ namespace H3ml.Layout
             _display = (style_display)html.value_index(get_style_property("display", false, "inline"), types.style_display_strings, (int)style_display.inline);
             _visibility = (visibility)html.value_index(get_style_property("visibility", true, "visible"), types.visibility_strings, (int)visibility.visible);
             _box_sizing = (box_sizing)html.value_index(get_style_property("box-sizing", false, "content-box"), types.box_sizing_strings, (int)box_sizing.content_box);
+
             if (_el_position != element_position.@static)
             {
                 var val = get_style_property("z-index", false, null);
-                if (val != null) _z_index = int.Parse(val);
+                if (val != null) _z_index = int.TryParse(val, out var v) ? v : 0;
             }
+
             var va = get_style_property("vertical-align", true, "baseline");
             _vertical_align = (vertical_align)html.value_index(va, types.vertical_align_strings, (int)vertical_align.baseline);
+
             var fl = get_style_property("float", false, "none");
             _float = (element_float)html.value_index(fl, types.element_float_strings, (int)element_float.none);
+
             _clear = (element_clear)html.value_index(get_style_property("clear", false, "none"), types.element_clear_strings, (int)element_clear.none);
 
             if (_float != element_float.none)
@@ -1298,9 +1308,11 @@ namespace H3ml.Layout
             }
 
             parse_background();
+
             if (!is_reparse)
                 foreach (var el in _children)
                     el.parse_styles();
+            context.PrintIndent--;
         }
 
         public override void draw(object hdc, int x, int y, int z, position clip)
@@ -3509,8 +3521,8 @@ namespace H3ml.Layout
                     else s_int += tok;
                 }
                 var s_off = s_int;
-                num = int.Parse(s_num);
-                off = int.Parse(s_off);
+                num = int.TryParse(s_num, out var v) ? v : 0;
+                off = int.TryParse(s_off, out v) ? v : 0;
             }
         }
 

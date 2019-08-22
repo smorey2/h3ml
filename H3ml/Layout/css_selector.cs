@@ -80,7 +80,7 @@ namespace H3ml.Layout
 
     //////////////////////////////////////////////////////////////////////////
 
-    [DebuggerDisplay("{val}[{attribute}]:{condition}")]
+    [DebuggerDisplay("{attribute}, value={value}")]
     public class css_attribute_selector
     {
         public string attribute;
@@ -91,7 +91,7 @@ namespace H3ml.Layout
 
     //////////////////////////////////////////////////////////////////////////
 
-    [DebuggerDisplay("{_tag}:{_attrs.Count}")]
+    [DebuggerDisplay("{_tag}, attribs={_attrs.Count}")]
     public class css_element_selector
     {
         static readonly char[] delims1 = ".#[:".ToCharArray();
@@ -104,7 +104,7 @@ namespace H3ml.Layout
         {
             var el_end = txt.IndexOfAny(delims1);
             _tag = txt.Substr(0, el_end).ToLowerInvariant();
-            _attrs.Clear(); //: sky
+            _attrs.Clear();
             while (el_end != -1)
             {
                 if (txt[el_end] == '.')
@@ -214,7 +214,7 @@ namespace H3ml.Layout
 
     //////////////////////////////////////////////////////////////////////////
 
-    [DebuggerDisplay("Tag = {_right._tag}, Styles = {_style._properties.Count}")]
+    [DebuggerDisplay("{_right._tag}, styles={_style._properties.Count}")]
     public class css_selector
     {
         public selector_specificity _specificity;

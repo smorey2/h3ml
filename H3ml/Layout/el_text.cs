@@ -1,7 +1,8 @@
-using System;
+using System.Diagnostics;
 
 namespace H3ml.Layout
 {
+    [DebuggerDisplay("{{text}}")]
     public class el_text : element
     {
         protected string _text;

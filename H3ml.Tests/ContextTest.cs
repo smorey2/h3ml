@@ -8,8 +8,8 @@ namespace H3ml.Layout
         [Test]
         public void Test()
         {
-            var html_context = new context();
-            html_context.load_master_stylesheet(Resources.master_css);
+            var ctx = new context();
+            ctx.load_master_stylesheet(Resources.master_css);
         }
     }
 }

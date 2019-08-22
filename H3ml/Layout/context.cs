@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace H3ml.Layout
 {
     public class context
@@ -9,5 +11,11 @@ namespace H3ml.Layout
         }
 
         public css master_css { get; } = new css();
+
+        public static int PrintIndent = -1;
+        public static void PrintLine(string text)
+        {
+            Debug.Write(new string(' ', PrintIndent * 2)); Debug.WriteLine(text);
+        }
     }
 }

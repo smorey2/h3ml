@@ -97,8 +97,8 @@ namespace H3ml.Layout
         [Test]
         public void ParseTest()
         {
-            var container = new container_test();
             var ctx = new context();
+            var container = new container_test();
             document.createFromString("", container, ctx);
         }
     }

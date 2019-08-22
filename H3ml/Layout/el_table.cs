@@ -19,12 +19,13 @@ namespace H3ml.Layout
         public override bool appendChild(element el)
         {
             if (el == null) return false;
-            return el.get_tagName() == "tbody" || el.get_tagName() == "thead" || el.get_tagName() == "tfoot" ? appendChild(el) : false;
+            var tagName = el.get_tagName();
+            return tagName == "tbody" || tagName == "thead" || tagName == "tfoot" ? base.appendChild(el) : false;
         }
 
         public override void parse_styles(bool is_reparse = false)
         {
-            parse_styles(is_reparse);
+            base.parse_styles(is_reparse);
             _border_collapse = (border_collapse)html.value_index(get_style_property("border-collapse", true, "separate"), types.border_collapse_strings, (int)border_collapse.separate);
             if (_border_collapse == border_collapse.separate)
             {
