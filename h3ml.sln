@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Tests", "H3ml.Tests\H3
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Windows.Forms", "H3ml.Windows.Forms\H3ml.Windows.Forms.csproj", "{5571FC90-0F97-4D96-8AD2-3E3A2116D3BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.Forms", "Browser.Forms\Browser.Forms.csproj", "{59EBEF4C-B55F-444F-A69A-FAC35FE0D200}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.Windows", "Browser.Windows\Browser.Windows.csproj", "{59EBEF4C-B55F-444F-A69A-FAC35FE0D200}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script", "H3ml.Script\H3ml.Script.csproj", "{3ABBBCBC-4D93-4C0A-AE26-05313A8F6874}"
 EndProject
@@ -19,9 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable", "H3m
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable.Tests", "H3ml.Script.Portable.Tests\H3ml.Script.Portable.Tests.csproj", "{A891D307-6621-425A-8656-35E1B185D570}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H3ml.AssetStudio", "H3ml.AssetStudio\H3ml.AssetStudio.csproj", "{98C452ED-165C-46D1-ACD8-CBA988B40137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetStudio", "H3ml.AssetStudio\H3ml.AssetStudio.csproj", "{98C452ED-165C-46D1-ACD8-CBA988B40137}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetProvider", "H3ml.AssetProvider\H3ml.AssetProvider.csproj", "{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.WindowsSimple", "Browser.WindowsSimple\Browser.WindowsSimple.csproj", "{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

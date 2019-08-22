@@ -1,5 +1,9 @@
+// https://www.w3schools.com/jsref/obj_history.asp
 namespace H3ml.Script
 {
+    /// <summary>
+    /// Interface IHistory
+    /// </summary>
     public interface IHistory
     {
         /// <summary>

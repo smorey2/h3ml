@@ -22,10 +22,7 @@ namespace H3ml.Script
         /// </value>
         /// <param name="index">The index.</param>
         /// <returns></returns>
-        public IElement this[int index]
-        {
-            get => null;
-        }
+        public IElement this[int index] => null;
 
         /// <summary>
         /// Returns the element at the specified index in an HTMLCollection

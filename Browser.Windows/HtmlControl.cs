@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using H3ml.Layout;
+﻿using H3ml.Layout;
 using H3ml.Layout.Containers;
-using System.IO;
 using H3ml.Services;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Browser.Forms
 {
