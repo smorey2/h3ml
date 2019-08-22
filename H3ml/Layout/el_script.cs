@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace H3ml.Layout
 {
+    [DebuggerDisplay("<script />")]
     public class el_script : element
     {
         string _text;

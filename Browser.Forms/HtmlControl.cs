@@ -90,7 +90,12 @@ namespace Browser.Forms
 
         public override void set_base_url(string base_url) => _base_url = !string.IsNullOrEmpty(base_url) ? urljoin(_url, base_url) : _url;
 
-        protected override object get_image(string url) => Image.FromStream(_http.load_file(url));
+        protected override object get_image(string url)
+        {
+            using (var s = _http.load_file(url))
+                try { return s != null ? Image.FromStream(s) : null; }
+                catch { return null; }
+        }
 
         public void open_page(string url)
         {

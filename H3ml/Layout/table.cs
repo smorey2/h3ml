@@ -206,8 +206,8 @@ namespace H3ml.Layout
             var cell = new table_cell
             {
                 el = el,
-                colspan = int.Parse(el.get_attr("colspan", "1")),
-                rowspan = int.Parse(el.get_attr("rowspan", "1")),
+                colspan = int.TryParse(el.get_attr("colspan", "1"), out var v) ? v : 0,
+                rowspan = int.TryParse(el.get_attr("rowspan", "1"), out v) ? v : 0,
                 borders = el.get_borders,
             };
             while (is_rowspanned(_cells.Count - 1, _cells.Back().Count))

@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace H3ml.Layout
 {
+    [DebuggerDisplay("{{space}}")]
     public class el_space : el_text
     {
         public el_space(string text, document doc) : base(text, doc) { }

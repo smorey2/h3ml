@@ -11,7 +11,7 @@ namespace H3ml.Layout
             if (str != null) _style.add_property("font-face", str, null, false);
             str = get_attr("size"); if (str != null)
             {
-                var sz = int.Parse(str);
+                var sz = int.TryParse(str, out var v) ? v : 0;
                 if (sz <= 1) _style.add_property("font-size", "x-small", null, false);
                 else if (sz >= 6) _style.add_property("font-size", "xx-large", null, false);
                 else switch (sz)

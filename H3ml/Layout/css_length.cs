@@ -80,7 +80,7 @@ namespace H3ml.Layout
                 var un = str.Substring(i);
                 if (num.Length != 0)
                 {
-                    _value = float.Parse(num, CultureInfo.InvariantCulture);
+                    _value = float.TryParse(num, NumberStyles.Any, CultureInfo.InvariantCulture, out var value) ? value : 0;
                     _units = (css_units)html.value_index(un, types.css_units_strings, (int)css_units.none);
                 }
                 else

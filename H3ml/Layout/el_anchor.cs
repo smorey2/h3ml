@@ -11,7 +11,8 @@ namespace H3ml.Layout
 
         public override void apply_stylesheet(css stylesheet)
         {
-            if (get_attr("href") != null) _pseudo_classes.Add("link");
+            if (get_attr("href") != null)
+                _pseudo_classes.Add("link");
             base.apply_stylesheet(stylesheet);
         }
     }

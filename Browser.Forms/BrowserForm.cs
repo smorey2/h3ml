@@ -23,8 +23,9 @@ namespace Browser.Forms
             _heightAdjust = Height - html.Height;
             SetSize(840, 640);
             html.set(ctx, this);
-            on_go_clicked(null, null);
         }
+
+        public void open(string url) => html.open_page(url);
 
         void SetSize(int width, int height)
         {

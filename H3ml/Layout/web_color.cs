@@ -239,10 +239,10 @@ namespace H3ml.Layout
                 var tokens = new List<string>();
                 html.split_string(s, tokens, ", \t");
                 var clr = new web_color();
-                if (tokens.Count >= 1) clr.red = (byte)int.Parse(tokens[0]);
-                if (tokens.Count >= 2) clr.green = (byte)int.Parse(tokens[1]);
-                if (tokens.Count >= 3) clr.blue = (byte)int.Parse(tokens[2]);
-                if (tokens.Count >= 4) clr.alpha = (byte)(double.Parse(tokens[3]) * 255.0);
+                if (tokens.Count >= 1) clr.red = (byte)(int.TryParse(tokens[0], out var v) ? v : 0);
+                if (tokens.Count >= 2) clr.green = (byte)(int.TryParse(tokens[1], out var v) ? v : 0);
+                if (tokens.Count >= 3) clr.blue = (byte)(int.TryParse(tokens[2], out var v) ? v : 0);
+                if (tokens.Count >= 4) clr.alpha = (byte)((double.TryParse(tokens[3], out var v) ? v : 0.0) * 255.0);
                 return clr;
             }
             else
