@@ -40,7 +40,7 @@ namespace H3ml.Script
         /// <value>
         /// The geolocation.
         /// </value>
-        IGeolocation geolocation { get; }
+        Geolocation geolocation { get; }
         /// <summary>
         /// Returns the language of the browser
         /// </summary>

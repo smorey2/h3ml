@@ -1,4 +1,5 @@
 ﻿using H3ml.Layout;
+using H3ml.Services;
 using System;
 using System.Windows.Forms;
 
@@ -6,19 +7,17 @@ namespace Browser.Forms
 {
     public partial class BrowserForm : Form
     {
-        readonly int _widthAdjust;
-        readonly int _heightAdjust;
+        readonly context _context = new context();
+        bool _consoleOpen = true;
 
-        public BrowserForm(context ctx)
+        public BrowserForm()
         {
             InitializeComponent();
-            _widthAdjust = Width - html.Width;
-            _heightAdjust = Height - html.Height;
             SetSize(840, 640);
-            html.set(ctx, this);
+            var css = Resources.master_css;
+            _context.load_master_stylesheet(css);
+            _view.Set(_context);
         }
-
-        public void open(string url) => html.open_page(url);
 
         void SetSize(int width, int height)
         {
@@ -26,30 +25,26 @@ namespace Browser.Forms
             BrowserForm_Resize(null, null);
         }
 
-        void on_go_clicked(object sender, EventArgs e) => html.open_page(address_bar.Text);
-
-        void on_address_key_press(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Return)
-            {
-                address_bar.Select(0, -1);
-                on_go_clicked(null, null);
-                e.Handled = true;
-            }
-        }
-
-        public void open_url(string url)
-        {
-            address_bar.Text = url;
-            html.open_page(url);
-        }
-
-        public void set_url(string url) => address_bar.Text = url;
-
         void BrowserForm_Resize(object sender, EventArgs e)
         {
-            html.Width = Width - _widthAdjust;
-            html.Height = Height - _heightAdjust;
+            _toolbar.Width = Width;
+            _view.Width = Width;
+            _console.Width = Width;
+            //
+            _view.Height = Height - _toolbar.Height - (!_consoleOpen ? 0 : _console.Height);
+            _console.Top = _view.Bottom;
+        }
+
+        public void open(string path) => _view.open(path, true);
+        public void back() => _view.back();
+        public void forward() => _view.forward();
+        public void reload() => _view.refresh();
+        public void calc_time(int calc_repeat = 1) => _view.render(true, true, calc_repeat);
+        public void on_page_loaded(string url)
+        {
+            _view.Focus();
+            _toolbar.on_page_loaded(url);
+            //_console.on_page_loaded(url);
         }
     }
 }

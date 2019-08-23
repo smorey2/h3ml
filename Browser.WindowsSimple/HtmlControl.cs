@@ -22,14 +22,9 @@ namespace Browser.Forms
         int _rendered_width;
         string _cursor;
         string _clicked_url;
-        BrowserForm _browser;
         HttpService _http = new HttpService();
 
-        public void set(context html_context, BrowserForm browser)
-        {
-            _browser = browser;
-            _html_context = html_context;
-        }
+        public void Set(context context) => _html_context = context;
 
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -86,7 +81,7 @@ namespace Browser.Forms
 
         protected override object get_image(string url)
         {
-            using (var s = _http.load_file(url))
+            using (var s = _http.Get(url))
                 try { return s != null ? Image.FromStream(s) : null; }
                 catch { return null; }
         }
@@ -96,9 +91,9 @@ namespace Browser.Forms
             _url = url;
             _base_url = url;
             load_text_file(url, out var html);
-            _url = _http.url;
-            _base_url = _http.url;
-            _browser.set_url(_url);
+            _url = _http.Url;
+            _base_url = _http.Url;
+            ((BrowserForm)Parent).set_url(_url);
             _html = document.createFromString(html, this, _html_context);
             if (_html != null)
             {
@@ -133,7 +128,9 @@ namespace Browser.Forms
 
         void load_text_file(string url, out string out_)
         {
-            var stream = _http.load_file(url);
+            if (url.IndexOf("://") == -1)
+                url = "https://" + url;
+            var stream = _http.Get(url);
             using (var r = new StreamReader(stream))
                 out_ = r.ReadToEnd();
         }

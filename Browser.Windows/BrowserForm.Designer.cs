@@ -28,58 +28,56 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.address_bar = new System.Windows.Forms.TextBox();
-            this.go_button = new System.Windows.Forms.Button();
-            this.html = new Browser.Forms.HtmlControl();
+            this._view = new Browser.Forms.HtmlControl();
+            this._toolbar = new Browser.Forms.ToolbarControl();
+            this._console = new Browser.Forms.ConsoleControl();
             this.SuspendLayout();
             // 
-            // address_bar
+            // _view
             // 
-            this.address_bar.Location = new System.Drawing.Point(12, 12);
-            this.address_bar.Name = "address_bar";
-            this.address_bar.Size = new System.Drawing.Size(505, 20);
-            this.address_bar.TabIndex = 0;
-            this.address_bar.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.on_address_key_press);
+            this._view.BackColor = System.Drawing.SystemColors.Control;
+            this._view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._view.Location = new System.Drawing.Point(1, 45);
+            this._view.Name = "_view";
+            this._view.Size = new System.Drawing.Size(786, 217);
+            this._view.TabIndex = 0;
             // 
-            // go_button
+            // _toolbar
             // 
-            this.go_button.Location = new System.Drawing.Point(523, 12);
-            this.go_button.Name = "go_button";
-            this.go_button.Size = new System.Drawing.Size(54, 20);
-            this.go_button.TabIndex = 1;
-            this.go_button.Text = "GO";
-            this.go_button.UseVisualStyleBackColor = true;
-            this.go_button.Click += new System.EventHandler(this.on_go_clicked);
+            this._toolbar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._toolbar.Location = new System.Drawing.Point(1, 1);
+            this._toolbar.Name = "_toolbar";
+            this._toolbar.Size = new System.Drawing.Size(786, 38);
+            this._toolbar.TabIndex = 1;
             // 
-            // html
+            // _console
             // 
-            this.html.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.html.Location = new System.Drawing.Point(12, 38);
-            this.html.Name = "html";
-            this.html.Size = new System.Drawing.Size(565, 280);
-            this.html.TabIndex = 2;
+            this._console.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._console.Location = new System.Drawing.Point(1, 269);
+            this._console.Name = "_console";
+            this._console.Size = new System.Drawing.Size(786, 218);
+            this._console.TabIndex = 2;
             // 
             // BrowserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(589, 330);
-            this.Controls.Add(this.html);
-            this.Controls.Add(this.go_button);
-            this.Controls.Add(this.address_bar);
+            this.ClientSize = new System.Drawing.Size(787, 488);
+            this.Controls.Add(this._console);
+            this.Controls.Add(this._toolbar);
+            this.Controls.Add(this._view);
             this.Name = "BrowserForm";
             this.Text = "Browser";
             this.Resize += new System.EventHandler(this.BrowserForm_Resize);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox address_bar;
-        private System.Windows.Forms.Button go_button;
-        private Browser.Forms.HtmlControl html;
+        private HtmlControl _view;
+        private ToolbarControl _toolbar;
+        private ConsoleControl _console;
     }
 }
 

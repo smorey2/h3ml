@@ -12,13 +12,13 @@ namespace Browser.Forms
         public BrowserForm(context ctx)
         {
             InitializeComponent();
-            _widthAdjust = Width - html.Width;
-            _heightAdjust = Height - html.Height;
+            _widthAdjust = Width - _html.Width;
+            _heightAdjust = Height - _html.Height;
             SetSize(840, 640);
-            html.set(ctx, this);
+            _html.Set(ctx);
         }
 
-        public void open(string url) => html.open_page(url);
+        public void open(string url) => _html.open_page(url);
 
         void SetSize(int width, int height)
         {
@@ -26,13 +26,13 @@ namespace Browser.Forms
             BrowserForm_Resize(null, null);
         }
 
-        void on_go_clicked(object sender, EventArgs e) => html.open_page(address_bar.Text);
+        void on_go_clicked(object sender, EventArgs e) => _html.open_page(_address_bar.Text);
 
         void on_address_key_press(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                address_bar.Select(0, -1);
+                _address_bar.Select(0, -1);
                 on_go_clicked(null, null);
                 e.Handled = true;
             }
@@ -40,16 +40,16 @@ namespace Browser.Forms
 
         public void open_url(string url)
         {
-            address_bar.Text = url;
-            html.open_page(url);
+            _address_bar.Text = url;
+            _html.open_page(url);
         }
 
-        public void set_url(string url) => address_bar.Text = url;
+        public void set_url(string url) => _address_bar.Text = url;
 
         void BrowserForm_Resize(object sender, EventArgs e)
         {
-            html.Width = Width - _widthAdjust;
-            html.Height = Height - _heightAdjust;
+            _html.Width = Width - _widthAdjust;
+            _html.Height = Height - _heightAdjust;
         }
     }
 }

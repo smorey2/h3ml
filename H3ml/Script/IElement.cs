@@ -170,7 +170,7 @@ namespace H3ml.Script
         /// Returns the size of an element and its position relative to the viewport
         /// </summary>
         /// <returns></returns>
-        DOMRect getBoundingClientRect();
+        IRect getBoundingClientRect();
         /// <summary>
         /// Returns a collection of all child elements with the specified class name
         /// </summary>

@@ -38,7 +38,7 @@ namespace H3ml.Layout
         public string followed_tags;
     }
 
-    public class document
+    public partial class document
     {
         element _root;
         Idocument_container _container;

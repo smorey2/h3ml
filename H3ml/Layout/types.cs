@@ -36,7 +36,7 @@ namespace H3ml.Layout
     }
 
     [DebuggerDisplay("position: {x},{y}:{width}x{height}")]
-    public struct position
+    public partial struct position
     {
         public int x;
         public int y;

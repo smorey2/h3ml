@@ -58,11 +58,30 @@
     <Compile Include="BrowserForm.Designer.cs">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsoleControl.Designer.cs">
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="HtmlControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="HtmlControl.Designer.cs">
       <DependentUpon>HtmlControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Webhistory.cs" />
+    <Compile Include="ToolbarControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToolbarControl.Designer.cs">
+      <DependentUpon>ToolbarControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WebpageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WebpageControl.Designer.cs">
+      <DependentUpon>WebpageControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +97,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ToolbarControl.resx">
+      <DependentUpon>ToolbarControl.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

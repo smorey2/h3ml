@@ -1,37 +1,37 @@
+using System;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace H3ml.Services
 {
     public class HttpService
     {
-        readonly static HttpClient _client;
-        string _url;
+        readonly static HttpClient _client = ConfigureHttpClient(new HttpClient());
 
-        static HttpService()
+        static HttpClient ConfigureHttpClient(HttpClient client)
         {
-            _client = new HttpClient();
-            _client.DefaultRequestHeaders.Add("User-Agent", "litebrowser/1.0");
-            //_client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
+            var useragent = "litebrowser/1.0";
+            //var useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36";
+            client.DefaultRequestHeaders.Add("User-Agent", useragent);
+            return client;
         }
 
-        public Stream load_file(string url)
+        public Stream Get(string url)
         {
-            if (url.IndexOf("://") == -1)
-                url = "https://" + url;
-            _url = url;
+            Url = url;
             try { return _client.GetStreamAsync(url).Result; }
             catch { return null; }
         }
 
-        public string url => _url;
+        public string Url { get; private set; }
 
-        //static size_t curlWriteFunction(void* ptr, size_t size, size_t nmemb, void* stream)
-        //{
-        //    Glib::RefPtr<Gio::MemoryInputStream>* s = (Glib::RefPtr<Gio::MemoryInputStream>*)stream;
-        //    (*s)->add_data(ptr, size * nmemb);
-        //    return size * nmemb;
-        //}
+        public Task<HttpResponseMessage> GetAsync(string url)
+        {
+            Url = url;
+            return _client.GetAsync(new Uri(url));
+        }
+
+        public void Stop() => _client.CancelPendingRequests();
     }
 }
