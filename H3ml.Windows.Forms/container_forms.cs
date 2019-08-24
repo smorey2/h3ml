@@ -30,13 +30,13 @@ namespace H3ml.Layout.Containers
         }
 
         public virtual void get_client_rect(out position client) => throw new NotImplementedException();
-        public virtual void import_css(out string text, string url, ref string baseurl) => throw new NotImplementedException();
-        public virtual void on_anchor_click(string url, element el) => throw new NotImplementedException();
+        public virtual void import_css(out string text, string url, ref string baseurl) { text = null; baseurl = null; }
+        public virtual void on_anchor_click(string url, element el) { }
         public string resolve_color(string color) => null;
-        public virtual void set_base_url(string base_url) => throw new NotImplementedException();
-        public virtual void set_caption(string caption) => throw new NotImplementedException();
-        public virtual void set_cursor(string cursor) => throw new NotImplementedException();
-        protected virtual object get_image(string url) => throw new NotImplementedException();
+        public virtual void set_base_url(string base_url) { }
+        public virtual void set_caption(string caption) { }
+        public virtual void set_cursor(string cursor) { }
+        protected virtual object get_image(string url) => null;
 
         public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
         {
@@ -352,7 +352,7 @@ namespace H3ml.Layout.Containers
 
         public void get_language(out string language, out string culture) { language = "en"; culture = string.Empty; }
 
-        public void link(document doc, element el) { }
+        public virtual void link(document doc, element el) { }
 
         protected static string urljoin(string base_, string relative)
         {

@@ -16,10 +16,7 @@ namespace Browser.Forms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var ctx = new context();
-            ctx.load_master_stylesheet(Resources.master_css);
-
-            var frm = new BrowserForm(ctx);
+            var frm = new BrowserForm();
             frm.open(args?.Length != 0 ? args[0] : "http://www.litehtml.com/");
             Application.Run(frm);
         }
