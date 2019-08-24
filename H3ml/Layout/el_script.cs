@@ -11,7 +11,8 @@ namespace H3ml.Layout
 
         public override void parse_attributes()
         {
-            //TODO: pass script text to document container
+            var doc = get_document();
+            doc.script?.execute(doc, _text);
         }
 
         public override bool appendChild(element el) { el.get_text(ref _text); return true; }

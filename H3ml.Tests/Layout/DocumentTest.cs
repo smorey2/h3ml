@@ -8,7 +8,7 @@ namespace H3ml.Layout
         [Test]
         public void AddFontTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             font_metrics fm;
             doc.get_font(null, 0, "normal", "normal", "", out fm);
             doc.get_font("inherit", 0, "normal", "normal", "", out fm);
@@ -20,7 +20,7 @@ namespace H3ml.Layout
         [Test]
         public void RenderTest()
         {
-            var doc = document.createFromString("<html>Body</html>", new container_test(), new context());
+            var doc = document.createFromString("<html>Body</html>", new container_test(), null, new context());
             doc.render(100, render_type.fixed_only);
             doc.render(100, render_type.no_fixed);
             doc.render(100, render_type.all);
@@ -29,14 +29,14 @@ namespace H3ml.Layout
         [Test]
         public void DrawTest()
         {
-            var doc = document.createFromString("<html>Body</html>", new container_test(), new context());
+            var doc = document.createFromString("<html>Body</html>", new container_test(), null, new context());
             doc.draw(null, 0, 0, 0, new position(0, 0, 0, 100, 100, 0)); //:h3ml
         }
 
         [Test]
         public void CvtUnitsTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             doc.cvt_units("", 10, out var is_percent);
             var c = new css_length();
             c.fromString("10%"); doc.cvt_units(c, 10, 100);
@@ -55,7 +55,7 @@ namespace H3ml.Layout
         [Test]
         public void MouseEventsTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             var redraw_boxes = new List<position>();
             doc.on_mouse_over(0, 0, 0, 0, 0, 0, redraw_boxes);
             doc.on_lbutton_down(0, 0, 0, 0, 0, 0, redraw_boxes);
@@ -66,7 +66,7 @@ namespace H3ml.Layout
         [Test]
         public void CreateElementTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             doc.create_element("container", new Dictionary<string, string> { { "", "" } });
             doc.create_element("br", new Dictionary<string, string> { { "", "" } });
             doc.create_element("p", new Dictionary<string, string> { { "", "" } });
@@ -89,7 +89,7 @@ namespace H3ml.Layout
         [Test]
         public void DeviceChangeTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             doc.media_changed();
             doc.lang_changed();
         }
@@ -99,7 +99,7 @@ namespace H3ml.Layout
         {
             var ctx = new context();
             var container = new container_test();
-            document.createFromString("", container, ctx);
+            document.createFromString("", container, null, ctx);
         }
     }
 }

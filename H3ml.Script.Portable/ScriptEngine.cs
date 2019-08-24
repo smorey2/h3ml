@@ -8,7 +8,7 @@ namespace H3ml.Script
     {
         V8Engine _v8 = new V8Engine();
 
-        public ScriptEngine()
+        public ScriptEngine(object n)
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("H3ml.Script.Portable.init.js"))
             using (var reader = new StreamReader(stream))

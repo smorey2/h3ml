@@ -1,17 +1,18 @@
 ﻿using H3ml.Layout;
 using H3ml.Layout.Containers;
+using H3ml.Script;
 using H3ml.Services;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Browser.Windows
 {
     public partial class WebpageControl : container_form
     {
-        internal HttpService _http = new HttpService();
+        internal const string USERAGENT = "litebrowser/1.0";
+        internal const string USERAGENT2 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36";
+        internal readonly HttpService _http = new HttpService(USERAGENT);
         internal string _url;
         internal document _doc;
         internal string _caption;
@@ -102,8 +103,8 @@ namespace Browser.Windows
             var html_text = load_utf8_file(file, true);
             if (html_text == null)
                 html_text = "<h1>Something Wrong</h1>";
-            _doc = document.createFromUTF8(html_text, this, ((HtmlControl)Parent).get_html_context());
-            //PostMessage(m_parent->wnd(), WM_PAGE_LOADED, 0, 0);
+            _doc = document.createFromUTF8(html_text, this, new ScriptEngine((HtmlControl)Parent), ((HtmlControl)Parent).get_html_context());
+            ((HtmlControl)Parent).OnPageReady();
         }
 
         string load_text_file(string url, bool is_html, string defEncoding = "UTF-8")
@@ -124,8 +125,8 @@ namespace Browser.Windows
                 txt += errMsg;
                 txt += "</p>";
             }
-            _doc = document.createFromString(txt, this, ((HtmlControl)Parent).get_html_context());
-            //PostMessage(m_parent->wnd(), WM_PAGE_LOADED, 0, 0);
+            _doc = document.createFromString(txt, this, null, ((HtmlControl)Parent).get_html_context());
+            ((HtmlControl)Parent).OnPageReady();
         }
 
         void on_image_loaded(Stream file, string url, bool redraw_only)
@@ -134,8 +135,8 @@ namespace Browser.Windows
             {
                 var img = Image.FromStream(file);
                 add_image(url, img);
-                //if (_doc != null)
-                //    PostMessage(m_parent->wnd(), WM_IMAGE_LOADED, (WPARAM)(redraw_only ? 1 : 0), 0);
+                if (_doc != null)
+                    ((HtmlControl)Parent).OnImageReady(redraw_only);
             }
             catch { }
         }

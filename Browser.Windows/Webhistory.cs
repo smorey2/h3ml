@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using H3ml.Script;
+using System.Collections.Generic;
 
 namespace Browser.Windows
 {
@@ -6,6 +7,9 @@ namespace Browser.Windows
     {
         List<string> _items = new List<string>();
         int _current_item = 0;
+
+        public int length => _items.Count;
+        public string this[int index] => index < _items.Count ? _items[index] : null;
 
         public void url_opened(string url)
         {

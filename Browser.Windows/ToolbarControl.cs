@@ -62,7 +62,7 @@ namespace Browser.Windows
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Browser.Windows.toolbar.toolbar.html"))
             using (var reader = new StreamReader(stream))
                 html = reader.ReadToEnd();
-            _doc = document.createFromString(html, this, _context);
+            _doc = document.createFromString(html, this, null, _context);
             render_toolbar(Width);
             //MoveWindow(x, y, Width, _doc.height, true);
         }
@@ -205,7 +205,7 @@ namespace Browser.Windows
 
         public override void on_anchor_click(string url, element el)
         {
-            var parent = (_browser)Parent;
+            var parent = (BrowserForm)Parent;
             if (url == "back") parent.back();
             else if (url == "forward") parent.forward();
             else if (url == "reload") parent.reload();

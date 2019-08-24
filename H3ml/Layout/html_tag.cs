@@ -1,3 +1,4 @@
+using H3ml.Script;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ namespace H3ml.Layout
         public int left;
         public int front; //:h3ml
         public int right;
-
         public int width => right - left;
         public void fix_top() => calculatedTop = top;
     }
@@ -744,6 +744,8 @@ namespace H3ml.Layout
                     _class_values.Clear();
                     html.split_string(val, _class_values, " ");
                 }
+                if (name.StartsWith("on", StringComparison.OrdinalIgnoreCase))
+                    ((IElement)this).addEventListener(name.Substring(2).ToLowerInvariant(), val);
             }
         }
         public override string get_attr(string name, string def = null) => _attrs.TryGetValue(name, out var attr) ? attr : def;
@@ -1100,8 +1102,6 @@ namespace H3ml.Layout
         public override visibility get_visibility => _visibility;
         public override void parse_styles(bool is_reparse = false)
         {
-            context.PrintIndent++;
-            context.PrintLine(_tag);
             var style = get_attr("style"); if (style != null) _style.add(style, null);
 
             init_font();
@@ -1312,7 +1312,6 @@ namespace H3ml.Layout
             if (!is_reparse)
                 foreach (var el in _children)
                     el.parse_styles();
-            context.PrintIndent--;
         }
 
         public override void draw(object hdc, int x, int y, int z, position clip)

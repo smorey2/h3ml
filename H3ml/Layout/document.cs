@@ -1,4 +1,5 @@
 using Gumbo;
+using H3ml.Script;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,7 +42,8 @@ namespace H3ml.Layout
     public partial class document
     {
         element _root;
-        Idocument_container _container;
+        Icontainer _container;
+        Iscript _script;
         Dictionary<string, font_item> _fonts = new Dictionary<string, font_item>();
         List<css_text> _css = new List<css_text>();
         css _styles = new css();
@@ -56,9 +58,10 @@ namespace H3ml.Layout
         string _lang;
         string _culture;
 
-        public document(Idocument_container objContainer, context ctx)
+        public document(Icontainer container, Iscript script, context ctx)
         {
-            _container = objContainer;
+            _container = container;
+            _script = script;
             _context = ctx;
         }
 
@@ -70,7 +73,8 @@ namespace H3ml.Layout
                     _container.delete_font(f.Value.font);
         }
 
-        public Idocument_container container => _container;
+        public Icontainer container => _container;
+        public Iscript script => _script;
 
         public object get_font(string name, int size, string weight, string style, string decoration, out font_metrics fm)
         {
@@ -319,10 +323,10 @@ namespace H3ml.Layout
 
         public element get_over_element => _over_element;
 
-        public static document createFromString(string str, Idocument_container objPainter, context ctx, css user_styles = null) => createFromUTF8(Encoding.UTF8.GetString(Encoding.Default.GetBytes(str)), objPainter, ctx, user_styles);
-        public static document createFromUTF8(string str, Idocument_container objPainter, context ctx, css user_styles = null)
+        public static document createFromString(string str, Icontainer container, Iscript script, context ctx, css user_styles = null) => createFromUTF8(Encoding.UTF8.GetString(Encoding.Default.GetBytes(str)), container, script, ctx, user_styles);
+        public static document createFromUTF8(string str, Icontainer container, Iscript script, context ctx, css user_styles = null)
         {
-            var doc = new document(objPainter, ctx); // Create litehtml::document
+            var doc = new document(container, script, ctx); // Create litehtml::document
             var root_elements = new List<element>();
             using (var gumbo = new Gumbo.Gumbo(str))  // parse document into GumboOutput
                 doc.create_node(gumbo.Document.Root, root_elements, true); // Create litehtml::elements.

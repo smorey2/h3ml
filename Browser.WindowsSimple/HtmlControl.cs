@@ -10,11 +10,9 @@ namespace Browser.Windows
 {
     public partial class HtmlControl : container_form
     {
-        public HtmlControl()
-        {
-            InitializeComponent();
-        }
-
+        internal const string USERAGENT = "litebrowser/1.0";
+        internal const string USERAGENT2 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36";
+        HttpService _http = new HttpService(USERAGENT);
         string _url;
         string _base_url;
         document _html;
@@ -22,7 +20,11 @@ namespace Browser.Windows
         int _rendered_width;
         string _cursor;
         string _clicked_url;
-        HttpService _http = new HttpService();
+
+        public HtmlControl()
+        {
+            InitializeComponent();
+        }
 
         public void Set(context context) => _html_context = context;
 
@@ -94,7 +96,7 @@ namespace Browser.Windows
             _url = newurl;
             _base_url = newurl;
             ((BrowserForm)Parent).set_url(_url);
-            _html = document.createFromString(html, this, _html_context);
+            _html = document.createFromString(html, this, null, _html_context);
             if (_html != null)
             {
                 _rendered_width = Width;

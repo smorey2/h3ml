@@ -7,7 +7,7 @@ namespace H3ml.Layout
         [Test]
         public void CssParseTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             var c = new css();
             c.parse_stylesheet("/*Comment*/", null, doc, null);
             c.parse_stylesheet("html { display: none }", null, doc, null);

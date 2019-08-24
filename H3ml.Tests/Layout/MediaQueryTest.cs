@@ -174,7 +174,7 @@ namespace H3ml.Layout
         [Test]
         public void MediaQueryParseTest()
         {
-            var doc = new document(new container_test(), null);
+            var doc = new document(new container_test(), null, null);
             media_query q;
 
             q = media_query.create_from_string("", doc);

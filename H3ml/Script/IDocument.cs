@@ -22,7 +22,7 @@ namespace H3ml.Script
         /// <param name="event">The event.</param>
         /// <param name="function">The function.</param>
         /// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-        void addEventListener(string @event, object function, bool useCapture = false);
+        void addEventListener(string @event, string function, bool useCapture = false);
         /// <summary>
         /// Adopts a node from another document
         /// </summary>
@@ -308,7 +308,7 @@ namespace H3ml.Script
         /// <param name="event">The event.</param>
         /// <param name="function">The function.</param>
         /// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-        void removeEventListener(string @event, object function, bool useCapture = false);
+        void removeEventListener(string @event, string function, bool useCapture = false);
         /// <summary>
         /// Renames the specified node
         /// </summary>

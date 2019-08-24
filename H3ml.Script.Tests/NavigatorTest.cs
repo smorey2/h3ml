@@ -7,7 +7,7 @@ namespace H3ml.Script
         [Test]
         public void EngineTest()
         {
-            var engine = new ScriptEngine();
+            var engine = new ScriptEngine(null);
             engine.Test();
         }
     }

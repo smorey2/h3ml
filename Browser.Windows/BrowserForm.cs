@@ -1,17 +1,36 @@
 ﻿using H3ml.Layout;
+using H3ml.Script;
 using H3ml.Services;
 using System;
 using System.Windows.Forms;
 
 namespace Browser.Windows
 {
-    public partial class _browser : Form
+    public partial class BrowserForm : Form, INavigator
     {
-        readonly context _context = new context();
-        bool _consoleOpen = true;
+        readonly context _context;
+        bool _consoleOpen;
 
-        public _browser()
+        #region Navigator
+
+        string INavigator.appCodeName => "BrowserForm";
+        string INavigator.appName => "BrowserForm";
+        string INavigator.appVersion => "1.0";
+        bool INavigator.cookieEnabled => false;
+        Geolocation INavigator.geolocation => throw new NotImplementedException();
+        string INavigator.language => "en";
+        bool INavigator.onLine => true;
+        string INavigator.platform => "platform";
+        string INavigator.product => "product";
+        string INavigator.userAgent => WebpageControl.USERAGENT;
+        bool INavigator.javaEnabled() => false;
+
+        #endregion
+
+        public BrowserForm()
         {
+            _context = new context();
+            _consoleOpen = false;
             InitializeComponent();
         }
 
@@ -19,9 +38,10 @@ namespace Browser.Windows
         {
             var css = Resources.master_css;
             _context.load_master_stylesheet(css);
-            _view.create(_context);
             _toolbar.create();
-            SetSize(840, 640);
+            _view.create(_context);
+            _console.create();
+            OnResize(null);
         }
 
         void SetSize(int width, int height)
@@ -32,15 +52,11 @@ namespace Browser.Windows
 
         protected override void OnResize(EventArgs e)
         {
-            _toolbar.Width = Width;
-            _view.Width = Width;
-            _console.Width = Width;
-            _toolbar.Width = Width;
-            _toolbar.Height = _toolbar.set_width(Width);
-            _view.Top = _toolbar.Bottom;
-            _view.Height = Height - _toolbar.Height - (!_consoleOpen ? 0 : _console.Height);
+            _toolbar.Height = _toolbar.set_width(Width - 20);
             _console.Visible = _consoleOpen;
-            _console.Top = _view.Bottom;
+            _console.set_width(Width - 20);
+            base.OnResize(e);
+            Refresh();
         }
 
         protected override void OnKeyDown(KeyEventArgs e)

@@ -92,6 +92,9 @@
     <EmbeddedResource Include="ConsoleControl.resx">
       <DependentUpon>ConsoleControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HtmlControl.resx">
+      <DependentUpon>HtmlControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -104,6 +107,9 @@
     </Compile>
     <EmbeddedResource Include="ToolbarControl.resx">
       <DependentUpon>ToolbarControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WebpageControl.resx">
+      <DependentUpon>WebpageControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -120,6 +126,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\H3ml.Script\H3ml.Script.csproj">
+      <Project>{3abbbcbc-4d93-4c0a-ae26-05313a8f6874}</Project>
+      <Name>H3ml.Script</Name>
+    </ProjectReference>
     <ProjectReference Include="..\H3ml.Windows.Forms\H3ml.Windows.Forms.csproj">
       <Project>{5571fc90-0f97-4d96-8ad2-3e3a2116d3bc}</Project>
       <Name>H3ml.Windows.Forms</Name>
@@ -153,6 +163,7 @@
     <EmbeddedResource Include="toolbar\settings-normal.png" />
     <EmbeddedResource Include="toolbar\toolbar-bg.png" />
     <EmbeddedResource Include="toolbar\toolbar.html" />
+    <EmbeddedResource Include="console\console.html" />
     <Content Include="x64\gumbo.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

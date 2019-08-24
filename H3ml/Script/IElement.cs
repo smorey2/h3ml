@@ -19,7 +19,7 @@ namespace H3ml.Script
         /// <param name="event">The event.</param>
         /// <param name="function">The function.</param>
         /// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-        void addEventListener(string @event, object function, bool useCapture = false);
+        void addEventListener(string @event, string function, bool useCapture = false);
         /// <summary>
         /// Adds a new child node, to an element, as the last child node
         /// </summary>
@@ -453,7 +453,7 @@ namespace H3ml.Script
         /// <param name="event">The event.</param>
         /// <param name="function">The function.</param>
         /// <param name="useCapture">if set to <c>true</c> [use capture].</param>
-        void removeEventListener(string @event, object function, bool useCapture = false);
+        void removeEventListener(string @event, string function, bool useCapture = false);
         /// <summary>
         /// Replaces a child node in an element
         /// </summary>

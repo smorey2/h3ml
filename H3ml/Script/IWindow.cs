@@ -356,7 +356,7 @@ namespace H3ml.Script
         /// <param name="milliseconds">The milliseconds.</param>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        int setInterval(object function, int milliseconds, params object[] args);
+        int setInterval(string function, int milliseconds, params object[] args);
         /// <summary>
         /// Calls a function or evaluates an expression after a specified number of milliseconds
         /// </summary>
@@ -364,7 +364,7 @@ namespace H3ml.Script
         /// <param name="milliseconds">The milliseconds.</param>
         /// <param name="args">The arguments.</param>
         /// <returns></returns>
-        int setTimeout(object function, int milliseconds, params object[] args);
+        int setTimeout(string function, int milliseconds, params object[] args);
         /// <summary>
         /// Stops the window from loading
         /// </summary>

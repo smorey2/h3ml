@@ -11,7 +11,7 @@ namespace Browser.Windows
         Control Parent;
         bool _haveFocus = false;
 
-        public el_omnibox(document doc, Control parent, Idocument_container container) : base(doc)
+        public el_omnibox(document doc, Control parent, Icontainer container) : base(doc)
         {
             Parent = parent;
             Parent.Controls.Add(_edit);

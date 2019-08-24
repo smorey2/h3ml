@@ -16,7 +16,7 @@ namespace Browser.Windows
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var frm = new _browser(); frm.create();
+            var frm = new BrowserForm(); frm.create();
             frm.open(args?.Length != 0 ? args[0] : "http://www.litehtml.com/");
             Application.Run(frm);
         }

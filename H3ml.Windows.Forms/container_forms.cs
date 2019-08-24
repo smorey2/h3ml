@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace H3ml.Layout.Containers
 {
-    public class container_form : UserControl, Idocument_container
+    public class container_form : UserControl, Icontainer
     {
         readonly Dictionary<string, object> _images = new Dictionary<string, object>();
         readonly List<position> _clips = new List<position>();

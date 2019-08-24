@@ -21,6 +21,6 @@ namespace H3ml.Script
         /// <summary>
         /// Loads the next URL in the history list
         /// </summary>
-        void go(object numberURL);
+        void go(int numberURL);
     }
 }
