@@ -1,3 +1,4 @@
+using H3ml.Script.Events;
 using System;
 
 // https://www.w3schools.com/jsref/dom_obj_document.asp
@@ -102,7 +103,7 @@ namespace H3ml.Script
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        IEvent createEvent(string type);
+        Event createEvent(string type);
         /// <summary>
         /// Creates a Text node
         /// </summary>
