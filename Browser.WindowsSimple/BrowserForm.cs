@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     public partial class BrowserForm : Form
     {

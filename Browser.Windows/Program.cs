@@ -3,7 +3,7 @@ using H3ml.Services;
 using System;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace Browser.Forms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var frm = new BrowserForm();
+            var frm = new _browser(); frm.create();
             frm.open(args?.Length != 0 ? args[0] : "http://www.litehtml.com/");
             Application.Run(frm);
         }

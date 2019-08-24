@@ -1,7 +1,8 @@
 ﻿using H3ml.Layout;
+using System.Drawing;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     public partial class HtmlControl : UserControl
     {
@@ -17,7 +18,7 @@ namespace Browser.Forms
             InitializeComponent();
         }
 
-        public void Set(context context) => _context = context;
+        public void create(context context) => _context = context;
 
         //protected override void OnPaint(PaintEventArgs e)
         //{
@@ -72,9 +73,9 @@ namespace Browser.Forms
                     if (_page_next != null)
                     {
                         _page_next._http.Stop();
-                        _page_next.Dispose();
+                        Controls.Remove(_page_next); _page_next.Dispose();
                     }
-                    _page_next = new WebpageControl();
+                    _page_next = new WebpageControl(); Controls.Add(_page_next);
                     _page_next._hash = hash;
                     _page_next.load(url);
                 }
@@ -83,7 +84,7 @@ namespace Browser.Forms
             {
                 show_hash(hash);
                 update_scroll();
-                redraw(null, false);
+                redraw(Rectangle.Empty, false);
                 update_history();
             }
         }
@@ -122,11 +123,11 @@ namespace Browser.Forms
             //}
         }
 
-        void redraw(object rcDraw, bool update)
+        void redraw(Rectangle rcDraw, bool update)
         {
-            //        InvalidateRect(m_hWnd, rcDraw, TRUE);
-            //        if (update)
-            //            UpdateWindow(m_hWnd);
+            Invalidate(rcDraw, true);
+            if (update)
+                Update();
         }
 
         void update_scroll()
@@ -238,59 +239,59 @@ namespace Browser.Forms
 
         //void OnHScroll(int pos, int flags)
         //{
-            //RECT rcClient;
-            //GetClientRect(m_hWnd, &rcClient);
+        //RECT rcClient;
+        //GetClientRect(m_hWnd, &rcClient);
 
-            //int lineWidth = 16;
-            //int pageWidth = rcClient.right - rcClient.left - lineWidth;
+        //int lineWidth = 16;
+        //int pageWidth = rcClient.right - rcClient.left - lineWidth;
 
-            //int newLeft = m_left;
+        //int newLeft = m_left;
 
-            //switch (flags)
-            //{
-            //    case SB_LINERIGHT:
-            //        newLeft = m_left + lineWidth;
-            //        if (newLeft > m_max_left)
-            //        {
-            //            newLeft = m_max_left;
-            //        }
-            //        break;
-            //    case SB_PAGERIGHT:
-            //        newLeft = m_left + pageWidth;
-            //        if (newLeft > m_max_left)
-            //        {
-            //            newLeft = m_max_left;
-            //        }
-            //        break;
-            //    case SB_LINELEFT:
-            //        newLeft = m_left - lineWidth;
-            //        if (newLeft < 0)
-            //        {
-            //            newLeft = 0;
-            //        }
-            //        break;
-            //    case SB_PAGELEFT:
-            //        newLeft = m_left - pageWidth;
-            //        if (newLeft < 0)
-            //        {
-            //            newLeft = 0;
-            //        }
-            //        break;
-            //    case SB_THUMBPOSITION:
-            //    case SB_THUMBTRACK:
-            //        newLeft = pos;
-            //        if (newLeft < 0)
-            //        {
-            //            newLeft = 0;
-            //        }
-            //        if (newLeft > m_max_left)
-            //        {
-            //            newLeft = m_max_left;
-            //        }
-            //        break;
-            //}
+        //switch (flags)
+        //{
+        //    case SB_LINERIGHT:
+        //        newLeft = m_left + lineWidth;
+        //        if (newLeft > m_max_left)
+        //        {
+        //            newLeft = m_max_left;
+        //        }
+        //        break;
+        //    case SB_PAGERIGHT:
+        //        newLeft = m_left + pageWidth;
+        //        if (newLeft > m_max_left)
+        //        {
+        //            newLeft = m_max_left;
+        //        }
+        //        break;
+        //    case SB_LINELEFT:
+        //        newLeft = m_left - lineWidth;
+        //        if (newLeft < 0)
+        //        {
+        //            newLeft = 0;
+        //        }
+        //        break;
+        //    case SB_PAGELEFT:
+        //        newLeft = m_left - pageWidth;
+        //        if (newLeft < 0)
+        //        {
+        //            newLeft = 0;
+        //        }
+        //        break;
+        //    case SB_THUMBPOSITION:
+        //    case SB_THUMBTRACK:
+        //        newLeft = pos;
+        //        if (newLeft < 0)
+        //        {
+        //            newLeft = 0;
+        //        }
+        //        if (newLeft > m_max_left)
+        //        {
+        //            newLeft = m_max_left;
+        //        }
+        //        break;
+        //}
 
-            //scroll_to(newLeft, m_top);
+        //scroll_to(newLeft, m_top);
         //}
 
         //readonly int WHEEL_DELTA = SystemInformation.MouseWheelScrollDelta;
@@ -306,39 +307,27 @@ namespace Browser.Forms
         //        scroll_to(Left, newTop);
         //}
 
-        //void OnKeyDown(UINT vKey)
-        //{
-        //    switch (vKey)
-        //    {
-        //        case VK_F5:
-        //            refresh();
-        //            break;
-        //        case VK_NEXT:
-        //            OnVScroll(0, SB_PAGEDOWN);
-        //            break;
-        //        case VK_PRIOR:
-        //            OnVScroll(0, SB_PAGEUP);
-        //            break;
-        //        case VK_DOWN:
-        //            OnVScroll(0, SB_LINEDOWN);
-        //            break;
-        //        case VK_UP:
-        //            OnVScroll(0, SB_LINEUP);
-        //            break;
-        //        case VK_HOME:
-        //            scroll_to(m_left, 0);
-        //            break;
-        //        case VK_END:
-        //            scroll_to(m_left, m_max_top);
-        //            break;
-        //        case VK_LEFT:
-        //            OnHScroll(0, SB_LINELEFT);
-        //            break;
-        //        case VK_RIGHT:
-        //            OnHScroll(0, SB_LINERIGHT);
-        //            break;
-        //    }
-        //}
+        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch(e.KeyCode)
+            {
+                case Keys.F5: refresh(); break;
+                //case Keys.Next: OnVScroll(0, SB_PAGEDOWN);  break;
+                //case Keys.Prior: OnVScroll(0, SB_PAGEUP); break;
+                //case Keys.Down: OnVScroll(0, SB_LINEDOWN); break;
+                //case Keys.Up: OnVScroll(0, SB_LINEUP); break;
+                //case Keys.Home: scroll_to(_left, 0); break;
+                //case Keys.End: scroll_to(_left, _max_top; break;
+                //case Keys.Left: OnHScroll(0, SB_LINELEFT); break;
+                //case Keys.Right: OnHScroll(0, SB_LINERIGHT); ; break;
+            }
+            base.OnKeyDown(e);
+        }
 
         public void refresh()
         {
@@ -514,10 +503,10 @@ namespace Browser.Forms
                 Left = 0;
                 show_hash(hash);
                 update_scroll();
-                redraw(null, false);
+                redraw(Rectangle.Empty, false);
                 set_caption();
                 update_history();
-                ((BrowserForm)Parent).on_page_loaded(url);
+                ((_browser)Parent).on_page_loaded(url);
             }
         }
 
@@ -572,15 +561,6 @@ namespace Browser.Forms
             page.get_url(out var url);
             _history.url_opened(url);
         }
-
-        //void create_dib(int width, int height)
-        //{
-        //    if (m_dib.width() < width || m_dib.height() < height)
-        //    {
-        //        m_dib.destroy();
-        //        m_dib.create(width, height, true);
-        //    }
-        //}
 
         void scroll_to(int new_left, int new_top)
         {

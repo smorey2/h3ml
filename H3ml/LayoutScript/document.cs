@@ -1,4 +1,5 @@
 using H3ml.Script;
+using H3ml.Script.Events;
 using System;
 
 namespace H3ml.Layout
@@ -94,7 +95,7 @@ namespace H3ml.Layout
             throw new NotImplementedException();
         }
 
-        IEvent IDocument.createEvent(string type)
+        Event IDocument.createEvent(string type)
         {
             throw new NotImplementedException();
         }

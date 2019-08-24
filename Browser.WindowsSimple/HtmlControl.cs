@@ -6,7 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     public partial class HtmlControl : container_form
     {
@@ -70,7 +70,7 @@ namespace Browser.Forms
         {
             baseurl = string.Empty;
             make_url(url, baseurl, out var css_url);
-            load_text_file(css_url, out text);
+            load_text_file(css_url, out text, out var newurl);
             if (!string.IsNullOrEmpty(text))
                 baseurl = css_url;
         }
@@ -81,8 +81,8 @@ namespace Browser.Forms
 
         protected override object get_image(string url)
         {
-            using (var s = _http.Get(url))
-                try { return s != null ? Image.FromStream(s) : null; }
+            using (var file = _http.GetStream(url))
+                try { return file != null ? Image.FromStream(file) : null; }
                 catch { return null; }
         }
 
@@ -90,9 +90,9 @@ namespace Browser.Forms
         {
             _url = url;
             _base_url = url;
-            load_text_file(url, out var html);
-            _url = _http.Url;
-            _base_url = _http.Url;
+            load_text_file(url, out var html, out var newurl);
+            _url = newurl;
+            _base_url = newurl;
             ((BrowserForm)Parent).set_url(_url);
             _html = document.createFromString(html, this, _html_context);
             if (_html != null)
@@ -126,12 +126,13 @@ namespace Browser.Forms
 
         void update_cursor() => Cursor = _cursor == "pointer" ? Cursors.Hand : Cursors.Default;
 
-        void load_text_file(string url, out string out_)
+        void load_text_file(string url, out string out_, out string newurl)
         {
             if (url.IndexOf("://") == -1)
                 url = "https://" + url;
             var stream = _http.Get(url);
-            using (var r = new StreamReader(stream))
+            newurl = stream.RequestMessage.RequestUri.ToString();
+            using (var r = new StreamReader(stream.Content.ReadAsStreamAsync().Result))
                 out_ = r.ReadToEnd();
         }
     }

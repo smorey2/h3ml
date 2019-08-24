@@ -1,4 +1,4 @@
-﻿namespace Browser.Forms
+﻿namespace Browser.Windows
 {
     partial class HtmlControl
     {

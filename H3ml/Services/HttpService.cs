@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace H3ml.Services
 {
@@ -17,19 +16,24 @@ namespace H3ml.Services
             return client;
         }
 
-        public Stream Get(string url)
+        public HttpResponseMessage Get(string url)
         {
-            Url = url;
+            try { return _client.GetAsync(url).Result; }
+            catch { return null; }
+        }
+
+        public Stream GetStream(string url)
+        {
             try { return _client.GetStreamAsync(url).Result; }
             catch { return null; }
         }
 
-        public string Url { get; private set; }
-
-        public Task<HttpResponseMessage> GetAsync(string url)
+        public void GetPromise(string url, Action<HttpResponseMessage> success, Action<string> error)
         {
-            Url = url;
-            return _client.GetAsync(new Uri(url));
+            var t = _client.GetAsync(url);
+            t.Wait();
+            if (t.IsCompleted) success(t.Result);
+            else error(t.IsFaulted ? t.Exception.Message : "Error");
         }
 
         public void Stop() => _client.CancelPendingRequests();

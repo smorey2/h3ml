@@ -118,6 +118,7 @@ namespace H3ml.Layout.Containers
             release_clip(gdi);
         }
 
+        public void add_image(string url, object img) => _images[url] = img;
         public void load_image(string src, string baseurl, bool redraw_on_ready)
         {
             make_url(src, baseurl, out var url);
@@ -328,7 +329,7 @@ namespace H3ml.Layout.Containers
 
         public string get_default_font_name() => "sans-serif";
 
-        public element create_element(string tag_name, Dictionary<string, string> attributes, document doc) => null;
+        public virtual element create_element(string tag_name, Dictionary<string, string> attributes, document doc) => null;
 
         //void container_linux::rounded_rectangle(cairo_t* cr, const litehtml::position &pos, const litehtml::border_radiuses &radius )
         //void container_linux::draw_pixbuf(cairo_t* cr, const Glib::RefPtr<Gdk::Pixbuf>& bmp, int x, int y, int cx, int cy)

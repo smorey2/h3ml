@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{59EBEF4C-B55F-444F-A69A-FAC35FE0D200}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Browser.Forms</RootNamespace>
-    <AssemblyName>Browser.Forms</AssemblyName>
+    <RootNamespace>Browser.Windows</RootNamespace>
+    <AssemblyName>Browser.Windows</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -70,6 +70,7 @@
     <Compile Include="HtmlControl.Designer.cs">
       <DependentUpon>HtmlControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="el_omnibox.cs" />
     <Compile Include="Webhistory.cs" />
     <Compile Include="ToolbarControl.cs">
       <SubType>UserControl</SubType>
@@ -88,6 +89,9 @@
     <EmbeddedResource Include="BrowserForm.resx">
       <DependentUpon>BrowserForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ConsoleControl.resx">
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -96,6 +100,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ToolbarControl.resx">
       <DependentUpon>ToolbarControl.cs</DependentUpon>
@@ -125,6 +130,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="toolbar\addr-center.png" />
+    <EmbeddedResource Include="toolbar\addr-left.png" />
+    <EmbeddedResource Include="toolbar\addr-right.png" />
+    <EmbeddedResource Include="toolbar\back-active.png" />
+    <EmbeddedResource Include="toolbar\back-disabled.png" />
+    <EmbeddedResource Include="toolbar\back-hover.png" />
+    <EmbeddedResource Include="toolbar\back-normal.png" />
+    <EmbeddedResource Include="toolbar\buttons.png" />
+    <EmbeddedResource Include="toolbar\forward-active.png" />
+    <EmbeddedResource Include="toolbar\forward-disabled.png" />
+    <EmbeddedResource Include="toolbar\forward-hover.png" />
+    <EmbeddedResource Include="toolbar\forward-normal.png" />
+    <EmbeddedResource Include="toolbar\home-active.png" />
+    <EmbeddedResource Include="toolbar\home-hover.png" />
+    <EmbeddedResource Include="toolbar\home-normal.png" />
+    <EmbeddedResource Include="toolbar\reload-active.png" />
+    <EmbeddedResource Include="toolbar\reload-hover.png" />
+    <EmbeddedResource Include="toolbar\reload-normal.png" />
+    <EmbeddedResource Include="toolbar\settings-active.png" />
+    <EmbeddedResource Include="toolbar\settings-hover.png" />
+    <EmbeddedResource Include="toolbar\settings-normal.png" />
+    <EmbeddedResource Include="toolbar\toolbar-bg.png" />
+    <EmbeddedResource Include="toolbar\toolbar.html" />
     <Content Include="x64\gumbo.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

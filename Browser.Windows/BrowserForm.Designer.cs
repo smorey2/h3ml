@@ -1,6 +1,6 @@
-﻿namespace Browser.Forms
+﻿namespace Browser.Windows
 {
-    partial class BrowserForm
+    partial class _browser
     {
         /// <summary>
         /// Required designer variable.
@@ -28,37 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this._view = new Browser.Forms.HtmlControl();
-            this._toolbar = new Browser.Forms.ToolbarControl();
-            this._console = new Browser.Forms.ConsoleControl();
+            this._console = new Browser.Windows.ConsoleControl();
+            this._toolbar = new Browser.Windows.ToolbarControl();
+            this._view = new Browser.Windows.HtmlControl();
             this.SuspendLayout();
-            // 
-            // _view
-            // 
-            this._view.BackColor = System.Drawing.SystemColors.Control;
-            this._view.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._view.Location = new System.Drawing.Point(1, 45);
-            this._view.Name = "_view";
-            this._view.Size = new System.Drawing.Size(786, 217);
-            this._view.TabIndex = 0;
-            // 
-            // _toolbar
-            // 
-            this._toolbar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._toolbar.Location = new System.Drawing.Point(1, 1);
-            this._toolbar.Name = "_toolbar";
-            this._toolbar.Size = new System.Drawing.Size(786, 38);
-            this._toolbar.TabIndex = 1;
             // 
             // _console
             // 
-            this._console.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._console.BackColor = System.Drawing.SystemColors.ControlLight;
             this._console.Location = new System.Drawing.Point(1, 269);
             this._console.Name = "_console";
             this._console.Size = new System.Drawing.Size(786, 218);
             this._console.TabIndex = 2;
             // 
-            // BrowserForm
+            // _toolbar
+            // 
+            this._toolbar.BackColor = System.Drawing.SystemColors.Info;
+            this._toolbar.Location = new System.Drawing.Point(0, 0);
+            this._toolbar.Name = "_toolbar";
+            this._toolbar.Size = new System.Drawing.Size(786, 29);
+            this._toolbar.TabIndex = 1;
+            // 
+            // _view
+            // 
+            this._view.BackColor = System.Drawing.SystemColors.Control;
+            this._view.Location = new System.Drawing.Point(1, 27);
+            this._view.Name = "_view";
+            this._view.Size = new System.Drawing.Size(786, 245);
+            this._view.TabIndex = 0;
+            // 
+            // _browser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -66,9 +65,9 @@
             this.Controls.Add(this._console);
             this.Controls.Add(this._toolbar);
             this.Controls.Add(this._view);
-            this.Name = "BrowserForm";
+            this.KeyPreview = true;
+            this.Name = "_browser";
             this.Text = "Browser";
-            this.Resize += new System.EventHandler(this.BrowserForm_Resize);
             this.ResumeLayout(false);
 
         }

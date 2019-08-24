@@ -1,4 +1,4 @@
-﻿namespace Browser.Forms
+﻿namespace Browser.Windows
 {
     partial class ConsoleControl
     {
@@ -28,10 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this._splitter = new System.Windows.Forms.Splitter();
+            this.SuspendLayout();
+            // 
+            // _splitter
+            // 
+            this._splitter.Cursor = System.Windows.Forms.Cursors.HSplit;
+            this._splitter.Dock = System.Windows.Forms.DockStyle.Top;
+            this._splitter.Location = new System.Drawing.Point(0, 0);
+            this._splitter.Name = "_splitter";
+            this._splitter.Size = new System.Drawing.Size(150, 3);
+            this._splitter.TabIndex = 0;
+            this._splitter.TabStop = false;
+            this._splitter.SplitterMoving += new System.Windows.Forms.SplitterEventHandler(this.Splitter_SplitterMoving);
+            // 
+            // ConsoleControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this._splitter);
+            this.Name = "ConsoleControl";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Splitter _splitter;
     }
 }

@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using H3ml.Layout;
+﻿using H3ml.Layout;
 using H3ml.Layout.Containers;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     public partial class ToolbarControl : container_form
     {
-        context _context = new context();
+        readonly context _context = new context();
         document _doc;
-        //std::shared_ptr<el_omnibox> m_omnibox;
+        el_omnibox _omnibox;
         string _cursor;
         bool _inCapture;
 
         public ToolbarControl()
         {
             InitializeComponent();
-            _context.load_master_stylesheet("html,div,body { display: block; } head,style { display: none; }");
         }
 
         void render_toolbar(int width)
@@ -31,7 +27,7 @@ namespace Browser.Forms
             if (_doc == null)
                 return;
             _doc.render(width);
-            //_omnibox.update_position();
+            _omnibox?.update_position();
         }
 
         void update_cursor()
@@ -42,94 +38,42 @@ namespace Browser.Forms
             else Cursor = defArrow;
         }
 
-        //void OnPaint(simpledib::dib* dib, LPRECT rcDraw)
-        //{
-        //    if (m_doc)
-        //    {
-        //        cairo_surface_t* surface = cairo_image_surface_create_for_data((unsigned char *) dib->bits(), CAIRO_FORMAT_ARGB32, dib->width(), dib->height(), dib->width() * 4);
-        //        cairo_t* cr = cairo_create(surface);
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            using (var cr = CreateGraphics())
+            {
+                var rect = cr.VisibleClipBounds;
+                var clip = new position
+                {
+                    x = (int)rect.X,
+                    y = (int)rect.Y,
+                    width = (int)rect.Width,
+                    height = (int)rect.Height,
+                };
+                if (_doc != null)
+                    _doc.draw(cr, 0, 0, 0, clip);
+            }
+        }
 
-        //        POINT pt;
-        //        GetWindowOrgEx(dib->hdc(), &pt);
-        //        if (pt.x != 0 || pt.y != 0)
-        //        {
-        //            cairo_translate(cr, -pt.x, -pt.y);
-        //        }
-        //        cairo_set_source_rgb(cr, 1, 1, 1);
-        //        cairo_paint(cr);
+        public void create()
+        {
+            _context.load_master_stylesheet("html,div,body { display: block; } head,style { display: none; }");
+            string html;
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Browser.Windows.toolbar.toolbar.html"))
+            using (var reader = new StreamReader(stream))
+                html = reader.ReadToEnd();
+            _doc = document.createFromString(html, this, _context);
+            render_toolbar(Width);
+            //MoveWindow(x, y, Width, _doc.height, true);
+        }
 
-        //        litehtml::position clip(rcDraw->left, rcDraw->top, rcDraw->right -rcDraw->left, rcDraw->bottom - rcDraw->top);
-        //        m_doc->draw((litehtml::uint_ptr)cr, 0, 0, &clip);
+        protected override object get_image(string url)
+        {
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Browser.Windows.toolbar.{url}"))
+                return Image.FromStream(stream);
+        }
 
-        //        cairo_destroy(cr);
-        //        cairo_surface_destroy(surface);
-        //    }
-        //}
-
-        //        void create(int x, int y, int width, HWND parent)
-        //        {
-        //# ifndef LITEHTML_UTF8
-        //            LPWSTR html = NULL;
-
-        //            HRSRC hResource = ::FindResource(m_hInst, L"toolbar.html", RT_HTML);
-        //            if (hResource)
-        //            {
-        //                DWORD imageSize = ::SizeofResource(m_hInst, hResource);
-        //                if (imageSize)
-        //                {
-        //                    LPCSTR pResourceData = (LPCSTR) ::LockResource(::LoadResource(m_hInst, hResource));
-        //                    if (pResourceData)
-        //                    {
-        //                        html = new WCHAR[imageSize * 3];
-        //                        int ret = MultiByteToWideChar(CP_UTF8, 0, pResourceData, imageSize, html, imageSize * 3);
-        //                        html[ret] = 0;
-        //                    }
-        //                }
-        //            }
-        //#else
-        //            LPSTR html = NULL;
-
-        //            HRSRC hResource = ::FindResource(m_hInst, L"toolbar.html", RT_HTML);
-        //            if (hResource)
-        //            {
-        //                DWORD imageSize = ::SizeofResource(m_hInst, hResource);
-        //                if (imageSize)
-        //                {
-        //                    LPCSTR pResourceData = (LPCSTR) ::LockResource(::LoadResource(m_hInst, hResource));
-        //                    if (pResourceData)
-        //                    {
-        //                        html = new CHAR[imageSize + 1];
-        //                        lstrcpynA(html, pResourceData, imageSize);
-        //                        html[imageSize] = 0;
-        //                    }
-        //                }
-        //            }
-        //#endif
-        //            m_hWnd = CreateWindow(TOOLBARWND_CLASS, L"toolbar", WS_CHILD | WS_VISIBLE, x, y, width, 1, parent, NULL, m_hInst, (LPVOID)this);
-
-        //            m_doc = litehtml::document::createFromString(html, this, &m_context);
-        //            delete html;
-        //            render_toolbar(width);
-        //            MoveWindow(m_hWnd, x, y, width, m_doc->height(), TRUE);
-        //        }
-
-        //        void CToolbarWnd::make_url(LPCWSTR url, LPCWSTR basepath, std::wstring& out )
-        //        {
-        //	out = url;
-        //        }
-
-        //        cairo_container::image_ptr CToolbarWnd::get_image(LPCWSTR url, bool redraw_on_ready)
-        //        {
-        //            cairo_container::image_ptr img = cairo_container::image_ptr(new CTxDIB);
-        //            if (!img->load(FindResource(m_hInst, url, RT_HTML), m_hInst))
-        //            {
-        //                img = nullptr;
-        //            }
-
-        //            return img;
-        //        }
-
-        int set_width(int width)
+        public int set_width(int width)
         {
             if (_doc == null)
                 return 0;
@@ -139,7 +83,7 @@ namespace Browser.Forms
 
         public void on_page_loaded(string url)
         {
-            //_omnibox?.set_url(url);
+            _omnibox?.set_url(url);
         }
 
         void OnMouseMove(int x, int y, int z)
@@ -149,22 +93,21 @@ namespace Browser.Forms
                 update_cursor();
                 return;
             }
-            //_omnibox?.OnMouseMove(x, y);
+            _omnibox?.OnMouseMove(x, y);
             if (!_inCapture)
             {
                 var redraw_boxes = new List<position>();
                 if (_doc.on_mouse_over(x, y, z, x, y, z, redraw_boxes))
                 {
-                    //foreach (var box in redraw_boxes)
-                    //{
-                    //    RECT rcRedraw;
-                    //    rcRedraw.left = box.left;
-                    //    rcRedraw.right = box.right;
-                    //    rcRedraw.top = box.top;
-                    //    rcRedraw.bottom = box.bottom;
-                    //    InvalidateRect(m_hWnd, &rcRedraw, TRUE);
-                    //}
-                    //UpdateWindow(m_hWnd);
+                    foreach (var box in redraw_boxes)
+                        Invalidate(new Rectangle
+                        {
+                            X = box.x,
+                            Y = box.y,
+                            Width = box.width,
+                            Height = box.height,
+                        }, true);
+                    Update();
                 }
             }
             update_cursor();
@@ -177,81 +120,72 @@ namespace Browser.Forms
             var redraw_boxes = new List<position>();
             if (_doc.on_mouse_leave(redraw_boxes))
             {
-                //foreach (var box in redraw_boxes)
-                //{
-                //    RECT rcRedraw;
-                //    rcRedraw.left = box.left;
-                //    rcRedraw.right = box.right;
-                //    rcRedraw.top = box.top;
-                //    rcRedraw.bottom = box.bottom;
-                //    InvalidateRect(m_hWnd, &rcRedraw, TRUE);
-                //}
-                //UpdateWindow(m_hWnd);
+                foreach (var box in redraw_boxes)
+                    Invalidate(new Rectangle
+                    {
+                        X = box.x,
+                        Y = box.y,
+                        Width = box.width,
+                        Height = box.height,
+                    }, true);
+                Update();
             }
         }
 
         void OnOmniboxClicked()
         {
-            //Focus();
-            //_omnibox.Focus();
+            Focus();
+            _omnibox?.SetFocus();
         }
 
-        void OnLButtonDown(int x, int y)
+        void OnLButtonDown(int x, int y, int z = 0)
         {
-            //if (m_doc)
-            //{
-            //    BOOL process = TRUE;
-            //    if (m_omnibox && m_omnibox->OnLButtonDown(x, y))
-            //    {
-            //        process = FALSE;
-            //    }
-            //    if (process && !m_inCapture)
-            //    {
-            //        litehtml::position::vector redraw_boxes;
-            //        if (m_doc->on_lbutton_down(x, y, x, y, redraw_boxes))
-            //        {
-            //            for (litehtml::position::vector::iterator box = redraw_boxes.begin(); box != redraw_boxes.end(); box++)
-            //            {
-            //                RECT rcRedraw;
-            //                rcRedraw.left = box->left();
-            //                rcRedraw.right = box->right();
-            //                rcRedraw.top = box->top();
-            //                rcRedraw.bottom = box->bottom();
-            //                InvalidateRect(m_hWnd, &rcRedraw, TRUE);
-            //            }
-            //            UpdateWindow(m_hWnd);
-            //        }
-            //    }
-            //}
+            if (_doc == null)
+                return;
+            var process = true;
+            //if (_omnibox?.OnLButtonDown(x, y))
+            //    process = false;
+            if (process && !_inCapture)
+            {
+                var redraw_boxes = new List<position>();
+                if (_doc.on_lbutton_down(x, y, z, x, y, z, redraw_boxes))
+                {
+                    foreach (var box in redraw_boxes)
+                        Invalidate(new Rectangle
+                        {
+                            X = box.x,
+                            Y = box.y,
+                            Width = box.width,
+                            Height = box.height,
+                        }, true);
+                    Update();
+                }
+            }
         }
 
-        void OnLButtonUp(int x, int y)
+        void OnLButtonUp(int x, int y, int z = 0)
         {
-            //if (m_doc)
-            //{
-            //    BOOL process = TRUE;
-            //    if (m_omnibox && m_omnibox->OnLButtonUp(x, y))
-            //    {
-            //        process = FALSE;
-            //    }
-            //    if (process && !m_inCapture)
-            //    {
-            //        litehtml::position::vector redraw_boxes;
-            //        if (m_doc->on_lbutton_up(x, y, x, y, redraw_boxes))
-            //        {
-            //            for (litehtml::position::vector::iterator box = redraw_boxes.begin(); box != redraw_boxes.end(); box++)
-            //            {
-            //                RECT rcRedraw;
-            //                rcRedraw.left = box->left();
-            //                rcRedraw.right = box->right();
-            //                rcRedraw.top = box->top();
-            //                rcRedraw.bottom = box->bottom();
-            //                InvalidateRect(m_hWnd, &rcRedraw, TRUE);
-            //            }
-            //            UpdateWindow(m_hWnd);
-            //        }
-            //    }
-            //}
+            if (_doc == null)
+                return;
+            var process = true;
+            //if (_omnibox?.OnLButtonUp(x, y))
+            //    process = false;
+            if (process && !_inCapture)
+            {
+                var redraw_boxes = new List<position>();
+                if (_doc.on_lbutton_up(x, y, z, x, y, z, redraw_boxes))
+                {
+                    foreach (var box in redraw_boxes)
+                        Invalidate(new Rectangle
+                        {
+                            X = box.x,
+                            Y = box.y,
+                            Width = box.width,
+                            Height = box.height,
+                        }, true);
+                    Update();
+                }
+            }
         }
 
         (string, string)[] g_bookmarks = new (string, string)[]
@@ -271,7 +205,7 @@ namespace Browser.Forms
 
         public override void on_anchor_click(string url, element el)
         {
-            var parent = (BrowserForm)Parent;
+            var parent = (_browser)Parent;
             if (url == "back") parent.back();
             else if (url == "forward") parent.forward();
             else if (url == "reload") parent.reload();
@@ -319,37 +253,21 @@ namespace Browser.Forms
 
         public override void set_cursor(string cursor) => _cursor = cursor;
 
-        //element create_element(string tag_name, Dictionary<string, string> attributes, document doc)
-        //{
-        //    if (!t_strcasecmp(tag_name, _t("input")))
-        //    {
-        //        auto iter = attributes.find(_t("type"));
-        //        if (iter != attributes.end())
-        //        {
-        //            if (!t_strcasecmp(iter->second.c_str(), _t("text")))
-        //            {
-        //                if (m_omnibox)
-        //                {
-        //                    m_omnibox = nullptr;
-        //                }
+        public override element create_element(string tag_name, Dictionary<string, string> attributes, document doc)
+        {
+            if (string.Equals(tag_name, "input", StringComparison.OrdinalIgnoreCase))
+                if (attributes.TryGetValue("type", out var type))
+                    if (string.Equals(type, "text", StringComparison.OrdinalIgnoreCase))
+                        return new el_omnibox(doc, this, this);
+            return null;
+        }
 
-        //                m_omnibox = std::make_shared<el_omnibox>(doc, m_hWnd, this);
-        //                return m_omnibox;
-        //            }
-        //        }
-        //    }
-        //    return 0;
-        //}
-
-
-        //void get_client_rect(position client)
-        //{
-        //    RECT rcClient;
-        //    GetClientRect(m_hWnd, &rcClient);
-        //    client.x = rcClient.left;
-        //    client.y = rcClient.top;
-        //    client.width = rcClient.right - rcClient.left;
-        //    client.height = rcClient.bottom - rcClient.top;
-        //}
+        public override void get_client_rect(out position client) => client = new position
+        {
+            x = Left,
+            y = Top,
+            width = Width,
+            height = Height,
+        };
     }
 }

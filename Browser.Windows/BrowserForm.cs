@@ -3,36 +3,56 @@ using H3ml.Services;
 using System;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
-    public partial class BrowserForm : Form
+    public partial class _browser : Form
     {
         readonly context _context = new context();
         bool _consoleOpen = true;
 
-        public BrowserForm()
+        public _browser()
         {
             InitializeComponent();
-            SetSize(840, 640);
+        }
+
+        public void create()
+        {
             var css = Resources.master_css;
             _context.load_master_stylesheet(css);
-            _view.Set(_context);
+            _view.create(_context);
+            _toolbar.create();
+            SetSize(840, 640);
         }
 
         void SetSize(int width, int height)
         {
             Width = width; Height = height;
-            BrowserForm_Resize(null, null);
+            OnResize(null);
         }
 
-        void BrowserForm_Resize(object sender, EventArgs e)
+        protected override void OnResize(EventArgs e)
         {
             _toolbar.Width = Width;
             _view.Width = Width;
             _console.Width = Width;
-            //
+            _toolbar.Width = Width;
+            _toolbar.Height = _toolbar.set_width(Width);
+            _view.Top = _toolbar.Bottom;
             _view.Height = Height - _toolbar.Height - (!_consoleOpen ? 0 : _console.Height);
+            _console.Visible = _consoleOpen;
             _console.Top = _view.Bottom;
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.F12:
+                    _consoleOpen = !_consoleOpen;
+                    OnResize(null);
+                    break;
+            }
+            base.OnKeyDown(e);
         }
 
         public void open(string path) => _view.open(path, true);
@@ -44,7 +64,7 @@ namespace Browser.Forms
         {
             _view.Focus();
             _toolbar.on_page_loaded(url);
-            //_console.on_page_loaded(url);
+            _console.on_page_loaded(url);
         }
     }
 }

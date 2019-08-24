@@ -2,11 +2,12 @@
 using H3ml.Layout.Containers;
 using H3ml.Services;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     public partial class WebpageControl : container_form
     {
@@ -16,7 +17,6 @@ namespace Browser.Forms
         internal string _caption;
         internal string _cursor;
         string _base_url;
-        string _waited_file;
         internal string _hash;
 
         public WebpageControl()
@@ -45,9 +45,9 @@ namespace Browser.Forms
         {
             text = null;
             make_url(url, baseurl, out var css_url);
-            if (download_and_wait(css_url))
+            if (download_and_wait(css_url, out var file))
             {
-                var css = load_text_file(css_url, false, "UTF-8");
+                var css = load_utf8_file(file, false, "UTF-8");
                 if (css != null)
                 {
                     baseurl = css_url;
@@ -68,15 +68,14 @@ namespace Browser.Forms
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                _http.GetAsync(url)
-                      .ContinueWith(t => on_document_error(t.IsFaulted ? t.Exception.Message : "Error"), TaskContinuationOptions.NotOnRanToCompletion)
-                      .ContinueWith(t => on_image_loaded(null, url, redraw_on_ready), TaskContinuationOptions.OnlyOnRanToCompletion)
-                      .Wait();
+                _http.GetPromise(url,
+                    t => on_image_loaded(t.Content.ReadAsStreamAsync().Result, url, redraw_on_ready),
+                    t => on_document_error(t));
                 return null;
             }
             else
-                using (var s = _http.Get(url))
-                    try { return s != null ? Image.FromStream(s) : null; }
+                using (var file = _http.GetStream(url))
+                    try { return file != null ? Image.FromStream(file) : null; }
                     catch { return null; }
         }
 
@@ -86,14 +85,13 @@ namespace Browser.Forms
             _base_url = url;
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                _http.GetAsync(url)
-                    .ContinueWith(t => on_document_loaded(t.Result.Content.ReadAsStreamAsync().Result, "UTF-8", t.Result.Headers?.Location.ToString()), TaskContinuationOptions.OnlyOnRanToCompletion)
-                    .ContinueWith(t => on_document_error(t.IsFaulted ? t.Exception.Message : "Error"), TaskContinuationOptions.NotOnRanToCompletion)
-                    .Wait();
+                _http.GetPromise(url,
+                    t => on_document_loaded(t.Content.ReadAsStreamAsync().Result, "UTF-8", t.RequestMessage.RequestUri.ToString()),
+                    t => on_document_error(t));
                 return;
             }
             else
-                using (var file = _http.Get(url))
+                using (var file = _http.GetStream(url))
                     on_document_loaded(file, "UTF-8", null);
         }
 
@@ -110,7 +108,7 @@ namespace Browser.Forms
 
         string load_text_file(string url, bool is_html, string defEncoding = "UTF-8")
         {
-            using (var file = _http.Get(url))
+            using (var file = _http.GetStream(url))
             {
                 var utf8 = load_utf8_file(file, is_html, defEncoding);
                 return utf8 != null ? utf8 : null;
@@ -135,34 +133,29 @@ namespace Browser.Forms
             try
             {
                 var img = Image.FromStream(file);
-                //cairo_container::add_image(std::wstring(url), img);
+                add_image(url, img);
                 //if (_doc != null)
                 //    PostMessage(m_parent->wnd(), WM_IMAGE_LOADED, (WPARAM)(redraw_only ? 1 : 0), 0);
             }
             catch { }
         }
 
-        bool download_and_wait(string url)
+        bool download_and_wait(string url, out Stream file)
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                _waited_file = string.Empty;
-                _http.GetAsync(url)
-                    .ContinueWith(t => on_waited_finished(null, url), TaskContinuationOptions.OnlyOnRanToCompletion)
-                    .ContinueWith(t => on_waited_finished(t.Exception?.Message, url), TaskContinuationOptions.NotOnRanToCompletion)
-                    .Wait();
-                return !string.IsNullOrEmpty(_waited_file);
+                Stream file2 = null;
+                _http.GetPromise(url,
+                    t => file2 = t.Content.ReadAsStreamAsync().Result,
+                    t => file2 = null);
+                file = file2;
+                return file2 != null;
             }
             else
             {
-                _waited_file = url;
+                file = _http.GetStream(url);
                 return true;
             }
-        }
-
-        void on_waited_finished(string dwError, string file)
-        {
-            _waited_file = dwError != null ? "" : file;
         }
 
         public override void get_client_rect(out position client) => ((HtmlControl)Parent).get_client_rect(out client);

@@ -3,7 +3,7 @@ using H3ml.Services;
 using System;
 using System.Windows.Forms;
 
-namespace Browser.Forms
+namespace Browser.Windows
 {
     static class Program
     {

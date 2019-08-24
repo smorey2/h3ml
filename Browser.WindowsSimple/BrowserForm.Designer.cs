@@ -1,4 +1,4 @@
-﻿namespace Browser.Forms
+﻿namespace Browser.Windows
 {
     partial class BrowserForm
     {
@@ -30,7 +30,7 @@
         {
             this._address_bar = new System.Windows.Forms.TextBox();
             this._go_button = new System.Windows.Forms.Button();
-            this._html = new Browser.Forms.HtmlControl();
+            this._html = new Browser.Windows.HtmlControl();
             this.SuspendLayout();
             // 
             // _address_bar
@@ -79,7 +79,7 @@
 
         private System.Windows.Forms.TextBox _address_bar;
         private System.Windows.Forms.Button _go_button;
-        private Browser.Forms.HtmlControl _html;
+        private Browser.Windows.HtmlControl _html;
     }
 }
 
