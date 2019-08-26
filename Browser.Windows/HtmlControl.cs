@@ -385,7 +385,7 @@ namespace Browser.Windows
         //        scroll_to(Left, newTop);
         //}
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        public new void OnKeyDown(KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -401,7 +401,6 @@ namespace Browser.Windows
                     //case Keys.Left: OnHScroll(0, SB_LINELEFT); break;
                     //case Keys.Right: OnHScroll(0, SB_LINERIGHT); ; break;
             }
-            base.OnKeyDown(e);
         }
 
         public void refresh()

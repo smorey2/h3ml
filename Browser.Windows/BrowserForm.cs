@@ -63,10 +63,8 @@ namespace Browser.Windows
         {
             switch (e.KeyCode)
             {
-                case Keys.F12:
-                    _consoleOpen = !_consoleOpen;
-                    OnResize(null);
-                    break;
+                case Keys.F12: _consoleOpen = !_consoleOpen; OnResize(null); break;
+                default: _view.OnKeyDown(e); break;
             }
             base.OnKeyDown(e);
         }

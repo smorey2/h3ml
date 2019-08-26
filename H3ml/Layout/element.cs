@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace H3ml.Layout
 {
-    public partial class element
+    public partial class element : node
     {
         protected internal element _parent;
         protected internal document _doc;
