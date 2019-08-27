@@ -1,13 +1,12 @@
+using H3ml.Events;
 using H3ml.Script;
-using H3ml.Script.Events;
 using System;
-using System.Collections.Generic;
 
 namespace H3ml.Layout
 {
-    partial class document : IDocument
+    partial class document : nodeList, IDocument
     {
-        readonly Dictionary<string, string> _events = new Dictionary<string, string>();
+        internal object windowProxy;
 
         IElement IDocument.activeElement => throw new NotImplementedException();
         HTMLCollection IDocument.anchors => throw new NotImplementedException();
@@ -37,7 +36,7 @@ namespace H3ml.Layout
         bool IDocument.strictErrorChecking { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string IDocument.title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string IDocument.URL => throw new NotImplementedException();
-        void IDocument.addEventListener(string @event, string function, bool useCapture) => _events[$"{@event}{(useCapture ? 1 : 0)}"] = function;
+        void IDocument.addEventListener(string @event, string function, bool useCapture) => throw new NotImplementedException();
         INode IDocument.adoptNode(INode node) => throw new NotImplementedException();
         void IDocument.close() => throw new NotImplementedException();
         INode IDocument.createAttribute(string attributename) => throw new NotImplementedException();
@@ -49,16 +48,16 @@ namespace H3ml.Layout
         bool IDocument.execCommand(string command, bool showUI, object value) => throw new NotImplementedException();
         bool IDocument.fullscreenEnabled() => throw new NotImplementedException();
         IElement IDocument.getElementById(string elementID) => throw new NotImplementedException();
-        NodeList IDocument.getElementsByClassName(string classname) => throw new NotImplementedException();
-        NodeList IDocument.getElementsByName(string name) => throw new NotImplementedException();
-        NodeList IDocument.getElementsByTagName(string tagname) => throw new NotImplementedException();
+        INodeList IDocument.getElementsByClassName(string classname) => throw new NotImplementedException();
+        INodeList IDocument.getElementsByName(string name) => throw new NotImplementedException();
+        INodeList IDocument.getElementsByTagName(string tagname) => throw new NotImplementedException();
         bool IDocument.hasFocus() => throw new NotImplementedException();
         INode IDocument.importNode(INode node, bool deep) => throw new NotImplementedException();
         void IDocument.normalize() => throw new NotImplementedException();
         void IDocument.open(string MIMEtype, string replace) => throw new NotImplementedException();
         IElement IDocument.querySelector(string selectors) => throw new NotImplementedException();
-        NodeList IDocument.querySelectorAll(string selectors) => throw new NotImplementedException();
-        void IDocument.removeEventListener(string @event, string function, bool useCapture) => _events.Remove($"{@event}{(useCapture ? 1 : 0)}");
+        INodeList IDocument.querySelectorAll(string selectors) => throw new NotImplementedException();
+        void IDocument.removeEventListener(string @event, string function, bool useCapture) => throw new NotImplementedException();
         INode IDocument.renameNode(INode node, string namespaceURI, string nodename) => throw new NotImplementedException();
         void IDocument.write(params object[] args) => throw new NotImplementedException();
         void IDocument.writeln(params object[] args) => throw new NotImplementedException();

@@ -1,4 +1,4 @@
-using H3ml.Script.Events;
+using H3ml.Events;
 using System;
 
 // https://www.w3schools.com/jsref/dom_obj_document.asp
@@ -197,19 +197,19 @@ namespace H3ml.Script
         /// </summary>
         /// <param name="classname">The classname.</param>
         /// <returns></returns>
-        NodeList getElementsByClassName(string classname);
+        INodeList getElementsByClassName(string classname);
         /// <summary>
         /// Returns a NodeList containing all elements with a specified name
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        NodeList getElementsByName(string name);
+        INodeList getElementsByName(string name);
         /// <summary>
         /// Returns a NodeList containing all elements with the specified tag name
         /// </summary>
         /// <param name="tagname">The tagname.</param>
         /// <returns></returns>
-        NodeList getElementsByTagName(string tagname);
+        INodeList getElementsByTagName(string tagname);
         /// <summary>
         /// Returns a Boolean value indicating whether the document has focus
         /// </summary>
@@ -287,7 +287,7 @@ namespace H3ml.Script
         /// </summary>
         /// <param name="selectors">The selectors.</param>
         /// <returns></returns>
-        NodeList querySelectorAll(string selectors);
+        INodeList querySelectorAll(string selectors);
         /// <summary>
         /// Returns the (loading) status of the document
         /// </summary>

@@ -1,9 +1,9 @@
 namespace H3ml.Script
 {
     /// <summary>
-    /// NodeList
+    /// INodeList
     /// </summary>
-    public class NodeList
+    public interface INodeList
     {
     }
 }

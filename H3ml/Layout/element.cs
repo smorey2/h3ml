@@ -6,7 +6,7 @@ namespace H3ml.Layout
     public partial class element : node
     {
         protected internal element _parent;
-        protected internal document _doc;
+        //protected internal document _doc;
         protected internal box _box;
         protected internal List<element> _children = new List<element>();
         protected internal position _pos;

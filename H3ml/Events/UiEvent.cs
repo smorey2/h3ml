@@ -1,4 +1,6 @@
-namespace H3ml.Script.Events
+using H3ml.Script;
+
+namespace H3ml.Events
 {
     /// <summary>
     /// UiEvent

@@ -1,13 +1,17 @@
-// https://www.w3schools.com/jsref/obj_event.asp
+using H3ml.Script;
 using System;
 
-namespace H3ml.Script.Events
+// https://www.w3schools.com/jsref/obj_event.asp
+namespace H3ml.Events
 {
     /// <summary>
     /// Event
     /// </summary>
-    public class Event
+    public partial class Event
     {
+        internal bool _inPassiveListener;
+        internal bool _immediatePropagationStopped;
+
         /// <summary>
         /// Returns whether or not a specific event is a bubbling event
         /// </summary>
@@ -80,7 +84,7 @@ namespace H3ml.Script.Events
         /// Prevents other listeners of the same event from being called
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
-        public void stopImmediatePropagation() => throw new NotImplementedException();
+        public void stopImmediatePropagation() => _immediatePropagationStopped = true;
         /// <summary>
         /// Returns the element that triggered the event
         /// </summary>

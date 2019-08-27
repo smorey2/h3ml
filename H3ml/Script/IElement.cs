@@ -47,7 +47,7 @@ namespace H3ml.Script
         /// <summary>
         /// Returns a collection of an element's child nodes (including text and comment nodes)
         /// </summary>
-        NodeList childNodes { get; }
+        INodeList childNodes { get; }
         /// <summary>
         /// Returns a collection of an element's child element (excluding text and comment nodes)
         /// </summary>
@@ -176,13 +176,13 @@ namespace H3ml.Script
         /// </summary>
         /// <param name="classname">The classname.</param>
         /// <returns></returns>
-        NodeList getElementsByClassName(string classname);
+        INodeList getElementsByClassName(string classname);
         /// <summary>
         /// Returns a collection of all child elements with the specified tag name
         /// </summary>
         /// <param name="tagname">The tagname.</param>
         /// <returns></returns>
-        NodeList getElementsByTagName(string tagname);
+        INodeList getElementsByTagName(string tagname);
         /// <summary>
         /// Returns true if an element has the specified attribute, otherwise false
         /// </summary>
@@ -429,7 +429,7 @@ namespace H3ml.Script
         /// </summary>
         /// <param name="selectors">The selectors.</param>
         /// <returns></returns>
-        NodeList querySelectorAll(string selectors);
+        INodeList querySelectorAll(string selectors);
         /// <summary>
         /// Removes a specified attribute from an element
         /// </summary>

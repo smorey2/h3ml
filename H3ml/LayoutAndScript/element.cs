@@ -1,115 +1,109 @@
+using H3ml.Events;
+using H3ml.Platform;
 using H3ml.Script;
 using System;
 using System.Collections.Generic;
 
 namespace H3ml.Layout
 {
-    partial class element : IElement
+    partial class element : node, IElement
     {
-        readonly Dictionary<string, string> _events = new Dictionary<string, string>();
-
-
-
-
         public bool dispatchMouseEvent(PlatformMouseEvent platformEvent, string eventType, int detail, element relatedTarget)
         {
-            var mouseEvent = new MouseEvent(eventType, document().windowProxy(), platformEvent, detail, relatedTarget);
+            var mouseEvent = new MouseEvent(eventType, _doc.windowProxy, platformEvent, detail, relatedTarget);
             var didNotSwallowEvent = true;
-            //ASSERT(!mouseEvent->target() || mouseEvent->target() != relatedTarget);
-            dispatchEvent(mouseEvent);
-            if (mouseEvent->defaultPrevented() || mouseEvent->defaultHandled())
-                didNotSwallowEvent = false;
+            //    //Debug.Assert(mouseEvent.target == null || mouseEvent.target != relatedTarget);
+            //    dispatchEvent(mouseEvent);
+            //    if (mouseEvent.defaultPrevented || mouseEvent.defaultHandled)
+            //        didNotSwallowEvent = false;
 
-            //if (mouseEvent->type() == eventNames().clickEvent && mouseEvent->detail() == 2)
-            //{
-            //    // Special case: If it's a double click event, we also send the dblclick event. This is not part
-            //    // of the DOM specs, but is used for compatibility with the ondblclick="" attribute. This is treated
-            //    // as a separate event in other DOM-compliant browsers like Firefox, and so we do the same.
-            //    // FIXME: Is it okay that mouseEvent may have been mutated by scripts via initMouseEvent in dispatchEvent above?
-            //    Ref<MouseEvent> doubleClickEvent = MouseEvent::create(eventNames().dblclickEvent,
-            //        mouseEvent->bubbles() ? Event::CanBubble::Yes : Event::CanBubble::No,
-            //        mouseEvent->cancelable() ? Event::IsCancelable::Yes : Event::IsCancelable::No,
-            //        Event::IsComposed::Yes,
-            //        mouseEvent->view(), mouseEvent->detail(),
-            //        mouseEvent->screenX(), mouseEvent->screenY(), mouseEvent->clientX(), mouseEvent->clientY(),
-            //        mouseEvent->modifierKeys(), mouseEvent->button(), mouseEvent->buttons(), mouseEvent->syntheticClickType(), relatedTarget);
+            //    //if (mouseEvent->type() == eventNames().clickEvent && mouseEvent->detail() == 2)
+            //    //{
+            //    //    // Special case: If it's a double click event, we also send the dblclick event. This is not part
+            //    //    // of the DOM specs, but is used for compatibility with the ondblclick="" attribute. This is treated
+            //    //    // as a separate event in other DOM-compliant browsers like Firefox, and so we do the same.
+            //    //    // FIXME: Is it okay that mouseEvent may have been mutated by scripts via initMouseEvent in dispatchEvent above?
+            //    //    Ref<MouseEvent> doubleClickEvent = MouseEvent::create(eventNames().dblclickEvent,
+            //    //        mouseEvent->bubbles() ? Event::CanBubble::Yes : Event::CanBubble::No,
+            //    //        mouseEvent->cancelable() ? Event::IsCancelable::Yes : Event::IsCancelable::No,
+            //    //        Event::IsComposed::Yes,
+            //    //        mouseEvent->view(), mouseEvent->detail(),
+            //    //        mouseEvent->screenX(), mouseEvent->screenY(), mouseEvent->clientX(), mouseEvent->clientY(),
+            //    //        mouseEvent->modifierKeys(), mouseEvent->button(), mouseEvent->buttons(), mouseEvent->syntheticClickType(), relatedTarget);
 
-            //    if (mouseEvent->defaultHandled())
-            //        doubleClickEvent->setDefaultHandled();
+            //    //    if (mouseEvent->defaultHandled())
+            //    //        doubleClickEvent->setDefaultHandled();
 
-            //    dispatchEvent(doubleClickEvent);
-            //    if (doubleClickEvent->defaultHandled() || doubleClickEvent->defaultPrevented())
-            //        return false;
-            //}
+            //    //    dispatchEvent(doubleClickEvent);
+            //    //    if (doubleClickEvent->defaultHandled() || doubleClickEvent->defaultPrevented())
+            //    //        return false;
+            //    //}
             return didNotSwallowEvent;
         }
 
-        public bool dispatchWheelEvent(PlatformWheelEvent platformEvent)
-        {
-            var event_ = new WheelEvent(platformEvent, document().windowProxy());
+        //public bool dispatchWheelEvent(PlatformWheelEvent platformEvent)
+        //{
+        //    var @event = new WheelEvent(platformEvent, document().windowProxy());
 
-            // Events with no deltas are important because they convey platform information about scroll gestures
-            // and momentum beginning or ending. However, those events should not be sent to the DOM since some
-            // websites will break. They need to be dispatched because dispatching them will call into the default
-            // event handler, and our platform code will correctly handle the phase changes. Calling stopPropogation()
-            // will prevent the event from being sent to the DOM, but will still call the default event handler.
-            // FIXME: Move this logic into WheelEvent::create.
-            if (!platformEvent.deltaX() && !platformEvent.deltaY())
-                event_.stopPropagation();
+        //    // Events with no deltas are important because they convey platform information about scroll gestures
+        //    // and momentum beginning or ending. However, those events should not be sent to the DOM since some
+        //    // websites will break. They need to be dispatched because dispatching them will call into the default
+        //    // event handler, and our platform code will correctly handle the phase changes. Calling stopPropogation()
+        //    // will prevent the event from being sent to the DOM, but will still call the default event handler.
+        //    // FIXME: Move this logic into WheelEvent::create.
+        //    if (!platformEvent.deltaX && !platformEvent.deltaY)
+        //        @event.stopImmediatePropagation();
 
-            dispatchEvent(event_);
-            return !event_->defaultPrevented() && !event_->defaultHandled();
-        }
+        //    dispatchEvent(@event);
+        //    return !@event.defaultPrevented && !@event.defaultHandled;
+        //}
 
-        public bool dispatchKeyEvent(PlatformKeyboardEvent platformEvent)
-        {
-            var event_ = new KeyboardEvent(platformEvent, document().windowProxy());
+        //public bool dispatchKeyEvent(PlatformKeyboardEvent platformEvent)
+        //{
+        //    var event_ = new KeyboardEvent(platformEvent, document().windowProxy());
 
-            var frame = document().frame();
-            if (frame != null)
-            {
-                if (frame.eventHandler().accessibilityPreventsEventPropagation(event_))
-                    event_.stopPropagation();
-            }
+        //    var frame = document().frame();
+        //    if (frame != null)
+        //        if (frame.eventHandler().accessibilityPreventsEventPropagation(event_))
+        //            event_.stopImmediatePropagation();
 
-            dispatchEvent(event_);
-            return !event_.defaultPrevented() && !event_.defaultHandled();
-        }
+        //    dispatchEvent(event_);
+        //    return !event_.defaultPrevented && !event_.defaultHandled;
+        //}
 
-        void dispatchFocusInEvent(string eventType, element oldFocusedElement)
-        {
-            ASSERT(eventType == eventNames().focusinEvent || eventType == eventNames().DOMFocusInEvent);
-            dispatchScopedEvent(new FocusEvent(eventType, Event.CanBubble.Yes, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(oldFocusedElement)));
-        }
+        //void dispatchFocusInEvent(string eventType, element oldFocusedElement)
+        //{
+        //    //Debug.Assert(eventType == eventNames().focusinEvent || eventType == eventNames().DOMFocusInEvent);
+        //    dispatchScopedEvent(new FocusEvent(eventType, Event.CanBubble.Yes, Event.IsCancelable.No, document().windowProxy(), 0, oldFocusedElement));
+        //}
 
-        void dispatchFocusOutEvent(string eventType, element newFocusedElement)
-        {
-            ASSERT(eventType == eventNames().focusoutEvent || eventType == eventNames().DOMFocusOutEvent);
-            dispatchScopedEvent(new FocusEvent(eventType, Event.CanBubble.Yes, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(newFocusedElement)));
-        }
+        //void dispatchFocusOutEvent(string eventType, element newFocusedElement)
+        //{
+        //    //Debug.Assert(eventType == eventNames().focusoutEvent || eventType == eventNames().DOMFocusOutEvent);
+        //    dispatchScopedEvent(new FocusEvent(eventType, Event.CanBubble.Yes, Event.IsCancelable.No, document().windowProxy(), 0, newFocusedElement));
+        //}
 
-        void dispatchFocusEvent(element oldFocusedElement, FocusDirection x)
-        {
-            var page = document().page();
-            if (page != null)
-                page.chrome().client().elementDidFocus(this);
-            dispatchEvent(new FocusEvent(eventNames().focusEvent, Event.CanBubble.No, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(oldFocusedElement)));
-        }
+        //void dispatchFocusEvent(element oldFocusedElement, FocusDirection x)
+        //{
+        //    var page = document().page();
+        //    if (page != null)
+        //        page.chrome().client().elementDidFocus(this);
+        //    dispatchEvent(new FocusEvent(eventNames().focusEvent, Event.CanBubble.No, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(oldFocusedElement)));
+        //}
 
-        void dispatchBlurEvent(element newFocusedElement)
-        {
-            var page = document().page();
-            if (page != null)
-                page.chrome().client().elementDidBlur(this);
-            dispatchEvent(new FocusEvent(eventNames().blurEvent, Event.CanBubble.No, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(newFocusedElement)));
-        }
-
+        //void dispatchBlurEvent(element newFocusedElement)
+        //{
+        //    var page = document().page();
+        //    if (page != null)
+        //        page.chrome().client().elementDidBlur(this);
+        //    dispatchEvent(new FocusEvent(eventNames().blurEvent, Event.CanBubble.No, Event.IsCancelable.No, document().windowProxy(), 0, WTFMove(newFocusedElement)));
+        //}
 
 
         char IElement.accessKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         NamedNodeMap IElement.attributes => throw new NotImplementedException();
         int IElement.childElementCount => throw new NotImplementedException();
-        NodeList IElement.childNodes => throw new NotImplementedException();
+        INodeList IElement.childNodes => throw new NotImplementedException();
         HTMLCollection IElement.children => throw new NotImplementedException();
         DOMTokenList IElement.classList => throw new NotImplementedException();
         string IElement.className { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -153,7 +147,7 @@ namespace H3ml.Layout
         string IElement.tagName => throw new NotImplementedException();
         string IElement.textContent { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         string IElement.title { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        void IElement.addEventListener(string @event, string function, bool useCapture) => _events[$"{@event}{(useCapture ? 1 : 0)}"] = function;
+        void IElement.addEventListener(string @event, string function, bool useCapture) => addEventListener(@event, null, new EventListenerOptions { capture = useCapture });
         INode IElement.appendChild(INode node) => throw new NotImplementedException();
         void IElement.blur() => throw new NotImplementedException();
         void IElement.click() => throw new NotImplementedException();
@@ -165,8 +159,8 @@ namespace H3ml.Layout
         string IElement.getAttribute(string attributename) => throw new NotImplementedException();
         IAttr IElement.getAttributeNode(string attributename) => throw new NotImplementedException();
         IRect IElement.getBoundingClientRect() => throw new NotImplementedException();
-        NodeList IElement.getElementsByClassName(string classname) => throw new NotImplementedException();
-        NodeList IElement.getElementsByTagName(string tagname) => throw new NotImplementedException();
+        INodeList IElement.getElementsByClassName(string classname) => throw new NotImplementedException();
+        INodeList IElement.getElementsByTagName(string tagname) => throw new NotImplementedException();
         bool IElement.hasAttribute(string attributename) => throw new NotImplementedException();
         bool IElement.hasAttributes() => throw new NotImplementedException();
         bool IElement.hasChildNodes() => throw new NotImplementedException();
@@ -179,11 +173,11 @@ namespace H3ml.Layout
         bool IElement.isSameNode(INode node) => throw new NotImplementedException();
         void IElement.normalize() => throw new NotImplementedException();
         IElement IElement.querySelector(string selectors) => throw new NotImplementedException();
-        NodeList IElement.querySelectorAll(string selectors) => throw new NotImplementedException();
+        INodeList IElement.querySelectorAll(string selectors) => throw new NotImplementedException();
         void IElement.removeAttribute(string attributename) => throw new NotImplementedException();
         IAttr IElement.removeAttributeNode(IAttr attributenode) => throw new NotImplementedException();
         INode IElement.removeChild(INode node) => throw new NotImplementedException();
-        void IElement.removeEventListener(string @event, string function, bool useCapture) => _events.Remove($"{@event}{(useCapture ? 1 : 0)}");
+        void IElement.removeEventListener(string @event, string function, bool useCapture) => removeEventListener(@event, null, new EventListenerOptions { capture = useCapture });
         INode IElement.replaceChild(INode newnode, INode oldnode) => throw new NotImplementedException();
         void IElement.requestFullscreen() => throw new NotImplementedException();
         void IElement.scrollIntoView(bool? alignTo) => throw new NotImplementedException();

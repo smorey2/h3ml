@@ -1,6 +1,8 @@
+using H3ml.Layout;
+using H3ml.Script;
 using System;
 
-namespace H3ml.Script.Events
+namespace H3ml.Events
 {
     /// <summary>
     /// MouseEvent
@@ -8,6 +10,10 @@ namespace H3ml.Script.Events
     /// </summary>
     public class MouseEvent : UiEvent
     {
+        public MouseEvent(string eventType, object window, object platformEvent, int detail, element relatedTarget)
+        {
+        }
+
         /// <summary>
         /// Returns whether the "ALT" key was pressed when the mouse event was triggered
         /// </summary>

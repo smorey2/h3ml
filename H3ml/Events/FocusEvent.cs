@@ -1,4 +1,4 @@
-namespace H3ml.Script.Events
+namespace H3ml.Events
 {
     /// <summary>
     /// FocusEvent

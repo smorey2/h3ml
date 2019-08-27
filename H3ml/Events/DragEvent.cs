@@ -1,4 +1,6 @@
-namespace H3ml.Script.Events
+using H3ml.Layout;
+
+namespace H3ml.Events
 {
     /// <summary>
     /// DragEvent
@@ -6,6 +8,10 @@ namespace H3ml.Script.Events
     /// </summary>
     public class DragEvent : MouseEvent
     {
+        public DragEvent(string eventType, object window, object platformEvent, int detail, element relatedTarget) : base(eventType, window, platformEvent, detail, relatedTarget)
+        {
+        }
+
         /// <summary>
         /// Returns the data that is dragged/dropped
         /// </summary>
