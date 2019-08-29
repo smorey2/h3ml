@@ -67,7 +67,7 @@ namespace Browser.Windows
             //MoveWindow(x, y, Width, _doc.height, true);
         }
 
-        protected override object get_image(string url)
+        protected override object get_image(string url, bool redraw_on_ready)
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Browser.Windows.toolbar.{url}"))
                 return Image.FromStream(stream);
@@ -258,7 +258,10 @@ namespace Browser.Windows
             if (string.Equals(tag_name, "input", StringComparison.OrdinalIgnoreCase))
                 if (attributes.TryGetValue("type", out var type))
                     if (string.Equals(type, "text", StringComparison.OrdinalIgnoreCase))
-                        return new el_omnibox(doc, this, this);
+                    {
+                        _omnibox = new el_omnibox(doc, this, this);
+                        return _omnibox;
+                    }
             return null;
         }
 

@@ -14,14 +14,6 @@ namespace H3ml.Layout.Containers
         bool _preload;
         float _dpi;
 
-        //public void fill_rect(object hdc, position pos, web_color color, css_border_radius radius)
-        //{
-        //    var gdi = (Graphics)hdc;
-        //    apply_clip(gdi);
-        //    fill_rect(gdi, pos.x, pos.y, pos.width, pos.height, color, radius);
-        //    release_clip(gdi);
-        //}
-
         void PreLoad()
         {
             _preload = true;
@@ -36,7 +28,7 @@ namespace H3ml.Layout.Containers
         public virtual void set_base_url(string base_url) { }
         public virtual void set_caption(string caption) { }
         public virtual void set_cursor(string cursor) { }
-        protected virtual object get_image(string url) => null;
+        protected virtual object get_image(string url, bool redraw_on_ready) => null;
 
         public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
         {
@@ -124,7 +116,7 @@ namespace H3ml.Layout.Containers
             make_url(src, baseurl, out var url);
             if (!_images.ContainsKey(url))
             {
-                var img = get_image(url);
+                var img = get_image(url, redraw_on_ready);
                 if (img != null)
                     _images[url] = img;
             }

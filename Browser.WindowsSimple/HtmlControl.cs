@@ -81,7 +81,7 @@ namespace Browser.Windows
 
         public override void set_base_url(string base_url) => _base_url = !string.IsNullOrEmpty(base_url) ? urljoin(_url, base_url) : _url;
 
-        protected override object get_image(string url)
+        protected override object get_image(string url, bool redraw_on_ready)
         {
             using (var file = _http.GetStream(url))
                 try { return file != null ? Image.FromStream(file) : null; }

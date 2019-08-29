@@ -130,7 +130,7 @@ namespace Browser.Windows
             render_console(Width);
         }
 
-        protected override object get_image(string url)
+        protected override object get_image(string url, bool redraw_on_ready)
         {
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Browser.Windows.console.{url}"))
                 return Image.FromStream(stream);

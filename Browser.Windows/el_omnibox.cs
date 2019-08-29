@@ -15,6 +15,17 @@ namespace Browser.Windows
         {
             Parent = parent;
             Parent.Controls.Add(_edit);
+            _edit.KeyPress += _edit_KeyPress;
+        }
+
+        void _edit_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                var url = get_url();
+                _edit.SelectAll();
+                ((BrowserForm)((ToolbarControl)Parent).ParentForm).open(url);
+            }
         }
 
         bool have_focus => _haveFocus;

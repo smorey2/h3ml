@@ -40,7 +40,10 @@ namespace Browser.Windows
                 _base_url = _url;
         }
 
-        protected override void make_url(string url, string basepath, out string urlout) => urlout = string.IsNullOrEmpty(basepath) ? !string.IsNullOrEmpty(_base_url) ? urljoin(_base_url, url) : url : urljoin(basepath, url);
+        protected override void make_url(string url, string basepath, out string urlout)
+        {
+            urlout = string.IsNullOrEmpty(basepath) ? !string.IsNullOrEmpty(_base_url) ? urljoin(_base_url, url) : url : urljoin(basepath, url);
+        }
 
         public override void import_css(out string text, string url, ref string baseurl)
         {
@@ -65,7 +68,7 @@ namespace Browser.Windows
 
         public override void set_cursor(string cursor) => _cursor = cursor;
 
-        object get_image(string url, bool redraw_on_ready = false)
+        protected override object get_image(string url, bool redraw_on_ready)
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
