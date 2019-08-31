@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetStudio", "Asset\H3ml.AssetStudio\H3ml.AssetStudio.csproj", "{98C452ED-165C-46D1-ACD8-CBA988B40137}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetProvider", "Asset\H3ml.AssetProvider\H3ml.AssetProvider.csproj", "{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Asset", "Asset\H3ml.Asset\H3ml.Asset.csproj", "{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.WindowsSimple", "Browser.WindowsSimple\Browser.WindowsSimple.csproj", "{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}"
 EndProject

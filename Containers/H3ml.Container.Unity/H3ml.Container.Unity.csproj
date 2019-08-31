@@ -4,6 +4,10 @@
     <TargetFramework>net471</TargetFramework>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(TargetDir)H3ml.Container.Unity*.dll&quot; &quot;$(SolutionDir)..\h3ml.unity\Assets\Plugins\&quot;&#xD;&#xA;" />
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\..\H3ml\H3ml.csproj" />
   </ItemGroup>

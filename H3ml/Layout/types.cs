@@ -102,8 +102,8 @@ namespace H3ml.Layout
         public bool does_intersect(position val)
         {
             //if (val == null) return true;
-            return (left <= val.right && right >= val.left && bottom >= val.top && top <= val.bottom && front >= val.back && back <= val.front) //:h3ml
-            || (val.left <= right && val.right >= left && val.bottom >= top && val.top <= bottom && val.front >= back && val.back <= front); //:h3ml
+            return (left <= val.right && right >= val.left && bottom >= val.top && top <= val.bottom && front <= val.back && back >= val.front) //:h3ml
+            || (val.left <= right && val.right >= left && val.bottom >= top && val.top <= bottom && val.front <= back && val.back >= front); //:h3ml
         }
 
         public bool empty => width == 0 && height == 0 && depth == 0; //:h3ml

@@ -18,26 +18,26 @@ namespace H3ml.Layout.Containers
         string _clicked_url;
         Vector3 _size;
 
-        protected void Attach()
+        protected virtual void Start()
         {
-            _size = GetComponent<Renderer>().bounds.size;
+            _size = new Vector3(500, 500, 10);
         }
 
-        protected void OnPaint()
+        protected override void OnPaint()
         {
-            //using (var cr = CreateGraphics())
-            //{
-            //    var rect = cr.VisibleClipBounds;
-            //    var pos = new position
-            //    {
-            //        width = (int)rect.Width,
-            //        height = (int)rect.Height,
-            //        x = (int)rect.X,
-            //        y = (int)rect.Y
-            //    };
-            //    if (_html != null)
-            //        _html.draw(cr, 0, 0, 0, pos);
-            //}
+            Debug.Log($"paint");
+            var cr = gameObject;
+            var pos = new position
+            {
+                width = (int)_size.x,
+                height = (int)_size.y,
+                depth = (int)_size.z,
+                x = 0,
+                y = 0,
+                z = 0,
+            };
+            if (_html != null)
+                _html.draw(cr, 0, 0, 0, pos);
         }
 
         public override void get_client_rect(out position client) => client = new position
@@ -46,7 +46,8 @@ namespace H3ml.Layout.Containers
             height = (int)_size.y,
             depth = (int)_size.z,
             x = 0,
-            y = 0
+            y = 0,
+            z = 0,
         };
 
         public override void on_anchor_click(string url, element el)
@@ -82,14 +83,17 @@ namespace H3ml.Layout.Containers
             using (var file = _http.GetStream(url))
                 try
                 {
-                    var tex = new Texture2D(1, 1);
+                    if (file.Length <= 0)
+                        return null;
                     var m = new MemoryStream();
                     file.CopyTo(m);
-                    m.Position = 0;
+                    var tex = new Texture2D(1, 1);
                     var loaded = tex.LoadImage(m.ToArray());
+                    if (!loaded)
+                        Debug.Log("get_image: !loaded");
                     return tex;
                 }
-                catch { return null; }
+                catch { Debug.Log("get_image Exception"); return null; }
         }
 
         public void open_page(string url)
