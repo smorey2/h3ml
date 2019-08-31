@@ -1,4 +1,3 @@
-using H3ml.Script;
 using System.Collections.Generic;
 
 namespace H3ml.Layout
@@ -23,6 +22,9 @@ namespace H3ml.Layout
         int get_default_font_size();
         string get_default_font_name();
         void draw_list_marker(object hdc, list_marker marker);
+        void load_asset(string src, string baseurl, Dictionary<string, string> attributes, bool redraw_on_ready);
+        void get_asset_size(string src, string baseurl, Dictionary<string, string> attributes, out size sz);
+        void draw_asset(object hdc, asset_paint asset);
         void load_image(string src, string baseurl, bool redraw_on_ready);
         void get_image_size(string src, string baseurl, out size sz);
         void draw_background(object hdc, background_paint bg);

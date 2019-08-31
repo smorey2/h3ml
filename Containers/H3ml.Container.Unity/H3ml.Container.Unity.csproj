@@ -9,6 +9,7 @@
   </Target>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Asset\H3ml.Asset\H3ml.Asset.csproj" />
     <ProjectReference Include="..\..\H3ml\H3ml.csproj" />
   </ItemGroup>
 

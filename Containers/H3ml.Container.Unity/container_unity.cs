@@ -1,3 +1,4 @@
+using H3ml.Asset;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ namespace H3ml.Layout.Containers
 {
     public class container_unity : MonoBehaviour, Icontainer
     {
+        readonly Dictionary<string, object> _assets = new Dictionary<string, object>();
         readonly Dictionary<string, object> _images = new Dictionary<string, object>();
         readonly List<position> _clips = new List<position>();
 
@@ -16,6 +18,11 @@ namespace H3ml.Layout.Containers
         public virtual void set_base_url(string base_url) => throw new NotImplementedException();
         public virtual void set_caption(string caption) => throw new NotImplementedException();
         public virtual void set_cursor(string cursor) => throw new NotImplementedException();
+        protected virtual object get_asset(string url, Dictionary<string, string> attributes, bool redraw_on_ready)
+        {
+            var provider = AssetManager.Find();
+            return provider.CreateObject(url, attributes);
+        }
         protected virtual object get_image(string url, bool redraw_on_ready) => throw new NotImplementedException();
 
         public void Refresh() => OnPaint();
@@ -36,6 +43,13 @@ namespace H3ml.Layout.Containers
             //var y2 = x2 * ratio;
             //var z2 = 1;
             //obj.transform.localScale = new Vector3(x2, y2, z2);
+        }
+
+        void hdc_DrawObject(GameObject hdc, GameObject obj, int x, int y, int z)
+        {
+            obj.transform.SetParent(hdc.transform);
+            obj.transform.localPosition = new Vector3(x, y, z);
+            //obj.transform.localScale = new Vector3(obj.width, obj.height, 0);
         }
 
         public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
@@ -142,6 +156,45 @@ namespace H3ml.Layout.Containers
                 }
         }
 
+        public void add_asset(string key, object obj) => _assets[key] = obj;
+        public void load_asset(string src, string baseurl, Dictionary<string, string> attributes, bool redraw_on_ready)
+        {
+            var provider = AssetManager.Find();
+            make_url(src, baseurl, out var url);
+            var key = provider.MakeKey(url, attributes);
+            if (!_assets.ContainsKey(key))
+            {
+                var asset = get_asset(url, attributes, redraw_on_ready);
+                if (asset != null)
+                    _assets[url] = asset;
+            }
+        }
+
+        public void get_asset_size(string src, string baseurl, Dictionary<string, string> attributes, out size sz)
+        {
+            var provider = AssetManager.Find();
+            sz = new size();
+            make_url(src, baseurl, out var url);
+            var key = provider.MakeKey(url, attributes);
+            if (_assets.TryGetValue(key, out var asset) && asset is GameObject obj)
+            {
+                var scale = obj.transform.localScale;
+                sz.width = (int)scale.x;
+                sz.height = (int)scale.y;
+                sz.depth = (int)scale.z;
+            }
+        }
+
+        public void draw_asset(object hdc, asset_paint a)
+        {
+            var provider = AssetManager.Find();
+            var root = (GameObject)hdc;
+            make_url(a.asset, a.baseurl, out var url);
+            var key = provider.MakeKey(url, a.attributes);
+            if (_assets.TryGetValue(key, out var asset) && asset is GameObject obj)
+                hdc_DrawObject(root, obj, a.position_x, a.position_y, a.position_z);
+        }
+
         public void add_image(string url, object img) => _images[url] = img;
         public void load_image(string src, string baseurl, bool redraw_on_ready)
         {
@@ -171,7 +224,6 @@ namespace H3ml.Layout.Containers
             make_url(src, baseurl, out var url);
             if (_images.TryGetValue(url, out var img) && img is Texture tex)
                 draw_bmp(root, tex, pos);
-            else Debug.Log($"draw_image: !{url}");
         }
 
         void draw_bmp(GameObject hdc, Texture tex, position pos) => hdc_DrawImage(hdc, tex, pos.left, pos.top, pos.depth);
@@ -182,7 +234,6 @@ namespace H3ml.Layout.Containers
             make_url(bg.image, bg.baseurl, out var url);
             if (_images.TryGetValue(url, out var img) && img is Texture tex)
                 draw_img_bg(root, tex, bg);
-            else Debug.Log($"draw_background: !{url}");
         }
 
         protected void draw_img_bg(GameObject hdc, Texture tex, background_paint bg)

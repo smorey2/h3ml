@@ -1,3 +1,4 @@
+using H3ml.Asset;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +9,7 @@ namespace H3ml.Layout.Containers
 {
     public class container_form : UserControl, Icontainer
     {
+        readonly Dictionary<string, object> _assets = new Dictionary<string, object>();
         readonly Dictionary<string, object> _images = new Dictionary<string, object>();
         readonly List<position> _clips = new List<position>();
         Rectangle _hClipRect;
@@ -28,6 +30,11 @@ namespace H3ml.Layout.Containers
         public virtual void set_base_url(string base_url) { }
         public virtual void set_caption(string caption) { }
         public virtual void set_cursor(string cursor) { }
+        protected virtual object get_asset(string url, Dictionary<string, string> attributes, bool redraw_on_ready)
+        {
+            var provider = AssetManager.Find();
+            return provider.CreateObject(url, attributes);
+        }
         protected virtual object get_image(string url, bool redraw_on_ready) => null;
 
         public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
@@ -107,6 +114,45 @@ namespace H3ml.Layout.Containers
                         }
                         break;
                 }
+            release_clip(gdi);
+        }
+
+        public void add_asset(string key, object obj) => _assets[key] = obj;
+        public void load_asset(string src, string baseurl, Dictionary<string, string> attributes, bool redraw_on_ready)
+        {
+            var provider = AssetManager.Find();
+            make_url(src, baseurl, out var url);
+            var key = provider.MakeKey(url, attributes);
+            if (!_assets.ContainsKey(key))
+            {
+                var asset = get_asset(url, attributes, redraw_on_ready);
+                if (asset != null)
+                    _assets[url] = asset;
+            }
+        }
+
+        public void get_asset_size(string src, string baseurl, Dictionary<string, string> attributes, out size sz)
+        {
+            var provider = AssetManager.Find();
+            sz = new size();
+            make_url(src, baseurl, out var url);
+            var key = provider.MakeKey(url, attributes);
+            if (_assets.TryGetValue(url, out var asset) && asset is Bitmap bmp)
+            {
+                sz.width = bmp.Width;
+                sz.height = bmp.Height;
+            }
+        }
+
+        public void draw_asset(object hdc, asset_paint a)
+        {
+            var provider = AssetManager.Find();
+            var gdi = (Graphics)hdc;
+            apply_clip(gdi);
+            make_url(a.asset, a.baseurl, out var url);
+            var key = provider.MakeKey(url, a.attributes);
+            //if (_assets.TryGetValue(key, out var asset) && asset is Bitmap bmp)
+            //    draw_img_bg(gdi, bmp, asset);
             release_clip(gdi);
         }
 

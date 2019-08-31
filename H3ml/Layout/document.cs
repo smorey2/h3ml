@@ -253,6 +253,7 @@ namespace H3ml.Layout
             {
                 if (tag_name == "br") newTag = new el_break(this_doc);
                 else if (tag_name == "p") newTag = new el_para(this_doc);
+                else if (tag_name == "obj") newTag = new el_asset(this_doc);
                 else if (tag_name == "img") newTag = new el_image(this_doc);
                 else if (tag_name == "table") newTag = new el_table(this_doc);
                 else if (tag_name == "td" || tag_name == "th") newTag = new el_td(this_doc);
