@@ -94,9 +94,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\H3ml.Windows.Forms\H3ml.Windows.Forms.csproj">
+    <ProjectReference Include="..\Containers\H3ml.Container.WindowsForms\H3ml.Container.WindowsForms.csproj">
       <Project>{5571fc90-0f97-4d96-8ad2-3e3a2116d3bc}</Project>
-      <Name>H3ml.Windows.Forms</Name>
+      <Name>H3ml.Container.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\H3ml\H3ml.csproj">
       <Project>{5ace53dc-f177-4ce7-96ac-c36250bba34b}</Project>

@@ -18,6 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\H3ml\H3ml.csproj" />
+    <ProjectReference Include="..\..\H3ml\H3ml.csproj" />
   </ItemGroup>
 </Project>

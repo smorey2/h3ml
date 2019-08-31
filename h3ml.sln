@@ -7,23 +7,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml", "H3ml\H3ml.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Tests", "H3ml.Tests\H3ml.Tests.csproj", "{535E4648-96CB-4896-B9ED-293308D84E15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Windows.Forms", "H3ml.Windows.Forms\H3ml.Windows.Forms.csproj", "{5571FC90-0F97-4D96-8AD2-3E3A2116D3BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Container.WindowsForms", "Containers\H3ml.Container.WindowsForms\H3ml.Container.WindowsForms.csproj", "{5571FC90-0F97-4D96-8AD2-3E3A2116D3BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.Windows", "Browser.Windows\Browser.Windows.csproj", "{59EBEF4C-B55F-444F-A69A-FAC35FE0D200}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script", "H3ml.Script\H3ml.Script.csproj", "{3ABBBCBC-4D93-4C0A-AE26-05313A8F6874}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script", "Script\H3ml.Script\H3ml.Script.csproj", "{3ABBBCBC-4D93-4C0A-AE26-05313A8F6874}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Tests", "H3ml.Script.Tests\H3ml.Script.Tests.csproj", "{17098255-FDA0-43CE-B57C-7473BE6E3597}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Tests", "Script\H3ml.Script.Tests\H3ml.Script.Tests.csproj", "{17098255-FDA0-43CE-B57C-7473BE6E3597}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable", "H3ml.Script.Portable\H3ml.Script.Portable.csproj", "{F5E88DCE-A182-4776-8D0D-DD97AB8FD9CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable", "Script\H3ml.Script.Portable\H3ml.Script.Portable.csproj", "{F5E88DCE-A182-4776-8D0D-DD97AB8FD9CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable.Tests", "H3ml.Script.Portable.Tests\H3ml.Script.Portable.Tests.csproj", "{A891D307-6621-425A-8656-35E1B185D570}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Script.Portable.Tests", "Script\H3ml.Script.Portable.Tests\H3ml.Script.Portable.Tests.csproj", "{A891D307-6621-425A-8656-35E1B185D570}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetStudio", "H3ml.AssetStudio\H3ml.AssetStudio.csproj", "{98C452ED-165C-46D1-ACD8-CBA988B40137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetStudio", "Asset\H3ml.AssetStudio\H3ml.AssetStudio.csproj", "{98C452ED-165C-46D1-ACD8-CBA988B40137}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetProvider", "H3ml.AssetProvider\H3ml.AssetProvider.csproj", "{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.AssetProvider", "Asset\H3ml.AssetProvider\H3ml.AssetProvider.csproj", "{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Browser.WindowsSimple", "Browser.WindowsSimple\Browser.WindowsSimple.csproj", "{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Script", "Script", "{B82F8F22-CFE4-4A6F-9470-AAA0ACFBC6C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Asset", "Asset", "{C4AE2D9A-C7D2-49EE-B12C-7BE0526287DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", "{378E2DDF-17CE-4C6C-8A70-96998356D23B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Container.Unity", "Containers\H3ml.Container.Unity\H3ml.Container.Unity.csproj", "{14D99E10-7015-4906-BC7E-DCE44E536431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,9 +83,23 @@ Global
 		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2F69BB4-FE8F-44FC-BDAB-97BFD0815B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D99E10-7015-4906-BC7E-DCE44E536431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D99E10-7015-4906-BC7E-DCE44E536431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D99E10-7015-4906-BC7E-DCE44E536431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D99E10-7015-4906-BC7E-DCE44E536431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5571FC90-0F97-4D96-8AD2-3E3A2116D3BC} = {378E2DDF-17CE-4C6C-8A70-96998356D23B}
+		{3ABBBCBC-4D93-4C0A-AE26-05313A8F6874} = {B82F8F22-CFE4-4A6F-9470-AAA0ACFBC6C1}
+		{17098255-FDA0-43CE-B57C-7473BE6E3597} = {B82F8F22-CFE4-4A6F-9470-AAA0ACFBC6C1}
+		{F5E88DCE-A182-4776-8D0D-DD97AB8FD9CF} = {B82F8F22-CFE4-4A6F-9470-AAA0ACFBC6C1}
+		{A891D307-6621-425A-8656-35E1B185D570} = {B82F8F22-CFE4-4A6F-9470-AAA0ACFBC6C1}
+		{98C452ED-165C-46D1-ACD8-CBA988B40137} = {C4AE2D9A-C7D2-49EE-B12C-7BE0526287DA}
+		{CF73649E-A7C9-42F7-95EF-6D4F2B735E8C} = {C4AE2D9A-C7D2-49EE-B12C-7BE0526287DA}
+		{14D99E10-7015-4906-BC7E-DCE44E536431} = {378E2DDF-17CE-4C6C-8A70-96998356D23B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A394811D-DB6E-4E59-8209-50AC7E9B8BE5}
