@@ -29,6 +29,59 @@ namespace H3ml.Layout.Containers
 
         protected virtual void OnPaint() { }
 
+        class UnityFont : IDisposable
+        {
+            public Font Font;
+            public System.Drawing.Font SystemFont;
+
+            public void Dispose() => SystemFont.Dispose();
+
+            public static UnityFont Create(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
+            {
+                // Unity
+                var fnt = Font.CreateDynamicFontFromOSFont(faceName, size);
+                //fm.ascent = fnt.ascent;
+                //fm.descent = 0;
+                //fm.x_height = fm.height = fnt.lineHeight;
+                //fm.draw_spaces = italic == font_style.italic || decoration != 0;
+                // From System
+                var fontStyle = italic == font_style.italic ? System.Drawing.FontStyle.Italic : System.Drawing.FontStyle.Regular;
+                if ((decoration & types.font_decoration_linethrough) != 0)
+                    fontStyle |= System.Drawing.FontStyle.Strikeout;
+                if ((decoration & types.font_decoration_underline) != 0)
+                    fontStyle |= System.Drawing.FontStyle.Underline;
+                var fnt2 = new System.Drawing.Font(faceName, size, fontStyle);
+                var fntFamily = fnt2.FontFamily;
+                var dpi = 96;
+                fm.ascent = fntFamily.GetCellAscent(fontStyle) / dpi;
+                fm.descent = fntFamily.GetCellDescent(fontStyle) / dpi;
+                fm.x_height = fm.height = fntFamily.GetEmHeight(fontStyle) / dpi;
+                fm.draw_spaces = italic == font_style.italic || decoration != 0;
+                return new UnityFont { Font = fnt, SystemFont = fnt2 };
+            }
+
+            //public int MeasureText(string text, object hFont)
+            //{
+            //    if (hFont == null)
+            //        throw new ArgumentNullException(nameof(hFont));
+            //    if (string.IsNullOrEmpty(text))
+            //        return 0;
+            //    var font = (Font)hFont;
+            //    var width = 0;
+            //    if (font.dynamic)
+            //        font.RequestCharactersInTexture(text, font.fontSize);
+            //    foreach (var c in text.ToCharArray())
+            //    {
+            //        if (!font.GetCharacterInfo(c, out var characterInfo, font.fontSize))
+            //            Debug.Log("error!");
+            //        width += characterInfo.advance;
+            //    }
+            //    return width;
+            //}
+
+            public int MeasureText(string text, object hFont) => System.Windows.Forms.TextRenderer.MeasureText(text, ((UnityFont)hFont).SystemFont).Width;
+        }
+
         void hdc_DrawImage(GameObject hdc, Texture tex, int x, int y, int z)
         {
             var obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -52,39 +105,9 @@ namespace H3ml.Layout.Containers
             //obj.transform.localScale = new Vector3(obj.width, obj.height, 0);
         }
 
-        public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm)
-        {
-            fm = default(font_metrics);
-            var fonts = new List<string>();
-            html.split_string(faceName, fonts, ",");
-            fonts[0].Trim();
+        public object create_font(string faceName, int size, int weight, font_style italic, uint decoration, out font_metrics fm) => UnityFont.Create(faceName, size, weight, italic, decoration, out fm);
 
-            // Unity
-            var fnt = Font.CreateDynamicFontFromOSFont(fonts[0], size);
-            fm.ascent = fnt.ascent;
-            fm.descent = 0;
-            fm.x_height = fm.height = fnt.lineHeight;
-            fm.draw_spaces = italic == font_style.italic || decoration != 0;
-
-            // From System
-            //var fontStyle = italic == font_style.italic ? System.Drawing.FontStyle.Italic : System.Drawing.FontStyle.Regular;
-            //if ((decoration & types.font_decoration_linethrough) != 0)
-            //    fontStyle |= System.Drawing.FontStyle.Strikeout;
-            //if ((decoration & types.font_decoration_underline) != 0)
-            //    fontStyle |= System.Drawing.FontStyle.Underline;
-            //using (var fnt2 = new System.Drawing.Font(fonts[0], weight, fontStyle))
-            //{
-            //    var fntFamily = fnt2.FontFamily;
-            //    var dpi = 96;
-            //    fm.ascent = fntFamily.GetCellAscent(fontStyle) / dpi;
-            //    fm.descent = fntFamily.GetCellDescent(fontStyle) / dpi;
-            //    fm.x_height = fm.height = fntFamily.GetEmHeight(fontStyle) / dpi;
-            //    fm.draw_spaces = italic == font_style.italic || decoration != 0;
-            //}
-            return fnt;
-        }
-
-        public void delete_font(object hFont) { }
+        public void delete_font(object hFont) => ((UnityFont)hFont).Dispose();
 
         public int text_width(string text, object hFont)
         {
@@ -108,7 +131,7 @@ namespace H3ml.Layout.Containers
         public void draw_text(object hdc, string text, object hFont, web_color color, position pos)
         {
             var root = (GameObject)hdc;
-            var font = (Font)hFont;
+            var font = ((UnityFont)hFont).Font;
             var obj = new GameObject("Text");
             obj.transform.SetParent(root.transform);
             obj.transform.localPosition = new Vector3(pos.left, pos.top, pos.depth);

@@ -48,7 +48,7 @@ namespace H3ml.Layout.Containers
                 fontStyle |= FontStyle.Strikeout;
             if ((decoration & types.font_decoration_underline) != 0)
                 fontStyle |= FontStyle.Underline;
-            var fnt = new Font(fonts[0], weight, fontStyle);
+            var fnt = new Font(fonts[0], size, fontStyle);
             var fntFamily = fnt.FontFamily;
             if (!_preload) PreLoad();
             var dpi = (int)_dpi;
