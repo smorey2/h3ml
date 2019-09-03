@@ -60,13 +60,11 @@ namespace H3ml.Layout.Containers
                 return new UnityFont { Font = fnt, SystemFont = fnt2 };
             }
 
-            //public int MeasureText(string text, object hFont)
+            //public int MeasureText(string text)
             //{
-            //    if (hFont == null)
-            //        throw new ArgumentNullException(nameof(hFont));
             //    if (string.IsNullOrEmpty(text))
             //        return 0;
-            //    var font = (Font)hFont;
+            //    var font = Font;
             //    var width = 0;
             //    if (font.dynamic)
             //        font.RequestCharactersInTexture(text, font.fontSize);
@@ -79,14 +77,23 @@ namespace H3ml.Layout.Containers
             //    return width;
             //}
 
-            public int MeasureText(string text, object hFont) => System.Windows.Forms.TextRenderer.MeasureText(text, ((UnityFont)hFont).SystemFont).Width;
+            public int MeasureText(string text) => System.Windows.Forms.TextRenderer.MeasureText(text, SystemFont).Width;
+        }
+
+        static Vector3 ToUnityVector(Vector3 vector) { Swap(ref vector.y, ref vector.z); return vector; }
+
+        static void Swap<T>(ref T a, ref T b)
+        {
+            var tmp = a;
+            a = b;
+            b = tmp;
         }
 
         void hdc_DrawImage(GameObject hdc, Texture tex, int x, int y, int z)
         {
             var obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
             obj.transform.SetParent(hdc.transform);
-            obj.transform.localPosition = new Vector3(x, y, z);
+            obj.transform.localPosition = ToUnityVector(new Vector3(x, y, z));
             obj.transform.localScale = new Vector3(tex.width, tex.height, 0);
             var mat = obj.GetComponent<MeshRenderer>().material;
             mat.shader = Shader.Find("UI/Default");
@@ -101,7 +108,7 @@ namespace H3ml.Layout.Containers
         void hdc_DrawObject(GameObject hdc, GameObject obj, int x, int y, int z)
         {
             obj.transform.SetParent(hdc.transform);
-            obj.transform.localPosition = new Vector3(x, y, z);
+            obj.transform.localPosition = ToUnityVector(new Vector3(x, y, z));
             //obj.transform.localScale = new Vector3(obj.width, obj.height, 0);
         }
 
@@ -109,24 +116,8 @@ namespace H3ml.Layout.Containers
 
         public void delete_font(object hFont) => ((UnityFont)hFont).Dispose();
 
-        public int text_width(string text, object hFont)
-        {
-            if (hFont == null)
-                throw new ArgumentNullException(nameof(hFont));
-            if (string.IsNullOrEmpty(text))
-                return 0;
-            var font = (Font)hFont;
-            var width = 0;
-            if (font.dynamic)
-                font.RequestCharactersInTexture(text, font.fontSize);
-            foreach (var c in text.ToCharArray())
-            {
-                if (!font.GetCharacterInfo(c, out var characterInfo, font.fontSize))
-                    Debug.Log("error!");
-                width += characterInfo.advance;
-            }
-            return width;
-        }
+        public int text_width(string text, object hFont) => ((UnityFont)hFont).MeasureText(text);
+
 
         public void draw_text(object hdc, string text, object hFont, web_color color, position pos)
         {
@@ -134,7 +125,7 @@ namespace H3ml.Layout.Containers
             var font = ((UnityFont)hFont).Font;
             var obj = new GameObject("Text");
             obj.transform.SetParent(root.transform);
-            obj.transform.localPosition = new Vector3(pos.left, pos.top, pos.depth);
+            obj.transform.localPosition = ToUnityVector(new Vector3(pos.left, pos.top, pos.depth));
             //obj.transform.localScale = new Vector3(1, 1, 0);
             var textMesh = obj.AddComponent<TextMesh>();
             textMesh.font = font;
