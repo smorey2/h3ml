@@ -81,7 +81,7 @@ namespace H3ml.Layout
             if (name == null || string.Equals(name, "inherit", StringComparison.OrdinalIgnoreCase))
                 name = _container.get_default_font_name();
             if (size == 0)
-                size = container.get_default_font_size();
+                size = _container.get_default_font_size();
             var key = $"{name}:{size}:{weight}:{style}:{decoration}";
             if (_fonts.TryGetValue(key, out var el))
             {
@@ -157,6 +157,7 @@ namespace H3ml.Layout
                 case css_units.vh: ret = (int)(_media.height * (double)val.val / 100.0); break;
                 case css_units.vmin: ret = (int)(Math.Min(_media.height, _media.width) * (double)val.val / 100.0); break;
                 case css_units.vmax: ret = (int)(Math.Max(_media.height, _media.width) * (double)val.val / 100.0); break;
+                case css_units.rem: ret = (int)(_root.get_font_size * (double)val.val); val.set_value(ret, css_units.px); break;
                 default: ret = (int)val.val; break;
             }
             return ret;
@@ -515,11 +516,22 @@ namespace H3ml.Layout
                 switch (el_ptr.get_display)
                 {
                     case style_display.inline_table:
-                    case style_display.table: fix_table_children(el_ptr, style_display.table_row_group, "table-row-group"); break;
+                    case style_display.table:
+                        fix_table_children(el_ptr, style_display.table_row_group, "table-row-group");
+                        break;
                     case style_display.table_footer_group:
                     case style_display.table_row_group:
-                    case style_display.table_header_group: fix_table_parent(el_ptr, style_display.table, "table"); fix_table_children(el_ptr, style_display.table_row, "table-row"); break;
-                    case style_display.table_row: fix_table_parent(el_ptr, style_display.table_row_group, "table-row-group"); fix_table_children(el_ptr, style_display.table_cell, "table-cell"); break;
+                    case style_display.table_header_group:
+                        var parent = el_ptr.parent();
+                        if (parent != null)
+                            if (parent.get_display != style_display.inline_table)
+                                fix_table_parent(el_ptr, style_display.table, "table");
+                        fix_table_children(el_ptr, style_display.table_row, "table-row");
+                        break;
+                    case style_display.table_row:
+                        fix_table_parent(el_ptr, style_display.table_row_group, "table-row-group");
+                        fix_table_children(el_ptr, style_display.table_cell, "table-cell");
+                        break;
                     case style_display.table_cell: fix_table_parent(el_ptr, style_display.table_row, "table-row"); break;
                     // TODO: make table layout fix for table-caption, table-column etc. elements
                     case style_display.table_caption:

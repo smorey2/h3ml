@@ -346,7 +346,7 @@ namespace H3ml.Layout
 
     partial class types
     {
-        public const string css_units_strings = "none;%;in;cm;mm;em;ex;pt;pc;px;dpi;dpcm;vw;vh;vmin;vmax";
+        public const string css_units_strings = "none;%;in;cm;mm;em;ex;pt;pc;px;dpi;dpcm;vw;vh;vmin;vmax;rem";
     }
     public enum css_units
     {
@@ -366,6 +366,7 @@ namespace H3ml.Layout
         [Description("vh")] vh,
         [Description("vmin")] vmin,
         [Description("vmax")] vmax,
+        [Description("vmax")] rem,
     }
 
     partial class types

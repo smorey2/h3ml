@@ -240,6 +240,7 @@ namespace H3ml.Layout
                         switch (el.get_display)
                         {
                             case style_display.inline_block:
+                            case style_display.inline_table:
                                 ret_width = el.render(line_ctx.left, line_ctx.top, line_ctx.front, line_ctx.right); //:h3ml
                                 break;
                             case style_display.block:
@@ -1136,6 +1137,7 @@ namespace H3ml.Layout
                     _display = style_display.block;
             }
             else if (_display == style_display.table ||
+                _display == style_display.inline_table ||
                 _display == style_display.table_caption ||
                 _display == style_display.table_cell ||
                 _display == style_display.table_column ||
@@ -2921,7 +2923,14 @@ namespace H3ml.Layout
 
             // re-render with new width
             if (ret_width < max_width && !second_pass && have_parent)
-                if (_display == style_display.inline_block || _css_width.is_predefined && (_float != element_float.none || _display == style_display.table || _el_position == element_position.absolute || _el_position == element_position.@fixed))
+                if (_display == style_display.inline_block ||
+                    (_css_width.is_predefined &&
+                    (_float != element_float.none ||
+                    _display == style_display.table ||
+                    _el_position == element_position.absolute ||
+                    _el_position == element_position.@fixed
+                    ))
+                    )
                 {
                     render(x, y, z, ret_width, true); //:h3ml
                     _pos.width = ret_width - (content_margins_left + content_margins_right);

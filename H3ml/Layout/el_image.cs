@@ -6,24 +6,45 @@ namespace H3ml.Layout
 
         public el_image(document doc) : base(doc) => _display = style_display.inline_block;
 
+        int calc_max_height(int image_height)
+        {
+            var doc = get_document();
+            var percentSize = 0;
+            if (_css_max_height.units == css_units.percentage)
+            {
+                var el_parent = parent();
+                if (el_parent != null)
+                    if (!el_parent.get_predefined_height(out percentSize))
+                        return image_height;
+            }
+            return doc.cvt_units(_css_max_height, _font_size, percentSize);
+        }
+
         public override int line_height => height;
         public override bool is_replaced => true;
         public override int render(int x, int y, int z, int max_width, bool second_pass = false)
         {
             var parent_width = max_width;
+
             calc_outlines(parent_width);
+
             _pos.move_to(x, y, z); //:h3ml
+
             var doc = get_document();
+
             doc.container.get_image_size(_src, null, out var sz);
+
             _pos.width = sz.width;
             _pos.height = sz.height;
             _pos.depth = sz.depth; //:h3ml
+
             if (_css_height.is_predefined && _css_width.is_predefined)
             {
                 _pos.height = sz.height;
                 _pos.width = sz.width;
                 _pos.depth = sz.depth; //:h3ml
-                // check for max-height
+
+                // check for max-width
                 if (!_css_max_width.is_predefined)
                 {
                     var max_width2 = doc.cvt_units(_css_max_width, _font_size, parent_width);
@@ -35,7 +56,7 @@ namespace H3ml.Layout
                 // check for max-height
                 if (!_css_max_height.is_predefined)
                 {
-                    var max_height = doc.cvt_units(_css_max_height, _font_size);
+                    var max_height = calc_max_height(sz.height);
                     if (_pos.height > max_height)
                         _pos.height = max_height;
                     _pos.width = sz.height != 0 ? (int)(_pos.height * (float)sz.width / sz.height) : sz.width;
@@ -48,7 +69,7 @@ namespace H3ml.Layout
                 // check for max-height
                 if (!_css_max_height.is_predefined)
                 {
-                    var max_height = doc.cvt_units(_css_max_height, _font_size);
+                    var max_height = calc_max_height(sz.height);
                     if (_pos.height > max_height)
                         _pos.height = max_height;
                 }
@@ -77,7 +98,7 @@ namespace H3ml.Layout
                 // check for max-height
                 if (!_css_max_height.is_predefined)
                 {
-                    var max_height = doc.cvt_units(_css_max_height, _font_size);
+                    var max_height = calc_max_height(sz.height);
                     if (_pos.height > max_height)
                         _pos.height = max_height;
                 }

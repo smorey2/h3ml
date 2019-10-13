@@ -88,7 +88,10 @@ namespace H3ml.Layout
             get
             {
                 var d = get_display;
-                return d == style_display.inline || d == style_display.inline_block || d == style_display.inline_text;
+                return d == style_display.inline ||
+                    d == style_display.inline_table ||
+                    d == style_display.inline_block ||
+                    d == style_display.inline_text;
             }
         }
         public position get_placement()
