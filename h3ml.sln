@@ -29,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "H3ml.Container.Unity", "Containers\H3ml.Container.Unity\H3ml.Container.Unity.csproj", "{14D99E10-7015-4906-BC7E-DCE44E536431}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Browser.Unity", "Browser.Unity\Browser.Unity.csproj", "{9B26A6B2-8FF5-46A5-B3D3-675FFC116D77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Browser.UnitySimple", "Browser.UnitySimple\Browser.UnitySimple.csproj", "{8B3AB6FD-C39E-454E-873E-3C99883981A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{14D99E10-7015-4906-BC7E-DCE44E536431}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14D99E10-7015-4906-BC7E-DCE44E536431}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14D99E10-7015-4906-BC7E-DCE44E536431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B26A6B2-8FF5-46A5-B3D3-675FFC116D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B26A6B2-8FF5-46A5-B3D3-675FFC116D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B26A6B2-8FF5-46A5-B3D3-675FFC116D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B26A6B2-8FF5-46A5-B3D3-675FFC116D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3AB6FD-C39E-454E-873E-3C99883981A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3AB6FD-C39E-454E-873E-3C99883981A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3AB6FD-C39E-454E-873E-3C99883981A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3AB6FD-C39E-454E-873E-3C99883981A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

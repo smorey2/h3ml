@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Browser.Windows
+namespace Browser.Unity
 {
     public class Webhistory
     {

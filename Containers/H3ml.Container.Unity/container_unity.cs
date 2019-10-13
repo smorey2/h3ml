@@ -118,7 +118,6 @@ namespace H3ml.Layout.Containers
 
         public int text_width(string text, object hFont) => ((UnityFont)hFont).MeasureText(text);
 
-
         public void draw_text(object hdc, string text, object hFont, web_color color, position pos)
         {
             var root = (GameObject)hdc;
@@ -341,7 +340,7 @@ namespace H3ml.Layout.Containers
 
         public string get_default_font_name() => "sans-serif";
 
-        public element create_element(string tag_name, Dictionary<string, string> attributes, document doc) => null;
+        public virtual element create_element(string tag_name, Dictionary<string, string> attributes, document doc) => null;
 
         public void get_media_features(media_features media)
         {

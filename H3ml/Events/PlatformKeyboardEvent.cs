@@ -1,4 +1,4 @@
-namespace H3ml.Platform
+namespace H3ml.Events
 {
     /// <summary>
     /// PlatformKeyboardEvent

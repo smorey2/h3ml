@@ -14,10 +14,10 @@ namespace Browser.Windows
         internal const string USERAGENT2 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36";
         internal readonly HttpService _http = new HttpService(USERAGENT);
         internal string _url;
+        string _base_url;
         internal document _doc;
         internal string _caption;
         internal string _cursor;
-        string _base_url;
         internal string _hash;
 
         public WebpageControl()

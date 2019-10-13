@@ -1,18 +1,20 @@
+using H3ml.Layout;
+using H3ml.Layout.Containers;
 using H3ml.Services;
 using System.IO;
 using UnityEngine;
 
-namespace H3ml.Layout.Containers
+namespace Browser.Unity
 {
     public class HtmlControl : container_unity
     {
         internal const string USERAGENT = "litebrowser/1.0";
         internal const string USERAGENT2 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36";
-        HttpService _http = new HttpService(USERAGENT);
+        readonly HttpService _http = new HttpService(USERAGENT);
         string _url;
         string _base_url;
-        document _html;
-        context _context = new context();
+        document _doc;
+        readonly context _context = new context();
         int _rendered_width;
         string _cursor;
         string _clicked_url;
@@ -25,7 +27,6 @@ namespace H3ml.Layout.Containers
 
         protected override void OnPaint()
         {
-            Debug.Log($"paint");
             var cr = gameObject;
             var pos = new position
             {
@@ -36,8 +37,8 @@ namespace H3ml.Layout.Containers
                 y = 0,
                 z = 0,
             };
-            if (_html != null)
-                _html.draw(cr, 0, 0, 0, pos);
+            if (_doc != null)
+                _doc.draw(cr, 0, 0, 0, pos);
         }
 
         public override void get_client_rect(out position client) => client = new position
@@ -104,11 +105,11 @@ namespace H3ml.Layout.Containers
             _url = newurl;
             _base_url = newurl;
             //_browser.set_url(_url);
-            _html = document.createFromString(html, this, null, _context);
-            if (_html != null)
+            _doc = document.createFromString(html, this, null, _context);
+            if (_doc != null)
             {
                 _rendered_width = (int)_size.x;
-                _html.render(_rendered_width);
+                _doc.render(_rendered_width);
             }
             Refresh();
         }
@@ -117,11 +118,11 @@ namespace H3ml.Layout.Containers
 
         protected void OnResize()
         {
-            if (_html != null && _rendered_width != (int)_size.x)
+            if (_doc != null && _rendered_width != (int)_size.x)
             {
                 _rendered_width = (int)_size.x;
-                _html.media_changed();
-                _html.render(_rendered_width);
+                _doc.media_changed();
+                _doc.render(_rendered_width);
                 Refresh();
             }
         }

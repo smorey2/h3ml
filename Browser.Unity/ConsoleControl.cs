@@ -1,19 +1,19 @@
-﻿using H3ml.Layout;
+using H3ml.Layout;
 using H3ml.Layout.Containers;
 using H3ml.Script;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
+using UnityEngine;
 
-namespace Browser.Windows
+namespace Browser.Unity
 {
-    public partial class ConsoleControl : container_form, IWindow
+    public class ConsoleControl : container_unity, IWindow
     {
         readonly context _context = new context();
         document _doc;
         string _cursor;
+        Vector3 _size;
 
         #region Window
 
@@ -81,9 +81,9 @@ namespace Browser.Windows
 
         #endregion
 
-        public ConsoleControl()
+        protected virtual void Start()
         {
-            InitializeComponent();
+            _size = new Vector3(500, 500, 10);
         }
 
         void render_console(int width)
@@ -95,44 +95,51 @@ namespace Browser.Windows
 
         void update_cursor()
         {
-            var defArrow = Cursors.Default;
-            if (_cursor == "pointer") Cursor = Cursors.Hand;
-            else if (_cursor == "text") Cursor = Cursors.IBeam;
-            else Cursor = defArrow;
+            //var defArrow = Cursors.Default;
+            //if (_cursor == "pointer") Cursor = Cursors.Hand;
+            //else if (_cursor == "text") Cursor = Cursors.IBeam;
+            //else Cursor = defArrow;
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint()
         {
-            using (var cr = CreateGraphics())
+            var cr = gameObject;
+            var pos = new position
             {
-                var rect = cr.VisibleClipBounds;
-                var clip = new position
-                {
-                    x = (int)rect.X,
-                    y = (int)rect.Y,
-                    width = (int)rect.Width,
-                    height = (int)rect.Height,
-                };
-                if (_doc != null)
-                    _doc.draw(cr, 0, 0, 0, clip);
-            }
+                width = (int)_size.x,
+                height = (int)_size.y,
+                depth = (int)_size.z,
+                x = 0,
+                y = 0,
+                z = 0,
+            };
+            if (_doc != null)
+                _doc.draw(cr, 0, 0, 0, pos);
         }
 
         public void create()
         {
             _context.load_master_stylesheet("html,div,body { display: block; } head,style { display: none; }");
             string html;
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Browser.Windows.console.console.html"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Browser.Unity.console.console.html"))
             using (var reader = new StreamReader(stream))
                 html = reader.ReadToEnd();
             _doc = document.createFromString(html, this, new ScriptEngine(this), _context);
-            render_console(Width);
+            render_console((int)_size.x);
         }
 
         protected override object get_image(string url, bool redraw_on_ready)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Browser.Windows.console.{url}"))
-                return Image.FromStream(stream);
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Browser.Unity.console.{url}"))
+            {
+                var m = new MemoryStream();
+                stream.CopyTo(m);
+                var tex = new Texture2D(1, 1);
+                var loaded = tex.LoadImage(m.ToArray());
+                if (!loaded)
+                    Debug.Log("get_image: !loaded");
+                return tex;
+            }
         }
 
         public int set_width(int width)
@@ -151,10 +158,12 @@ namespace Browser.Windows
 
         public override void get_client_rect(out position client) => client = new position
         {
-            x = Left,
-            y = Top,
-            width = Width,
-            height = Height,
+            width = (int)_size.x,
+            height = (int)_size.y,
+            depth = (int)_size.z,
+            x = 0,
+            y = 0,
+            z = 0,
         };
 
         #region Script

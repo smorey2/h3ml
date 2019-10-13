@@ -1,5 +1,4 @@
 using H3ml.Events;
-using H3ml.Platform;
 using H3ml.Script;
 using System;
 using System.Collections.Generic;
